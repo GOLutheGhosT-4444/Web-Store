@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Mobius Redirect</title>
+    <style>
+        :root {
+            --face-w: 210px; 
+            --face-h: 290px; 
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background: #000;
+            font-family: sans-serif;
+            overflow-x: hidden;
+            height: 200vh;
+        }
+
+        .world-bg {
+            position: fixed; top: 0; width: 100%; height: 100%;
+            background: url('32.png') center/cover;
+            z-index: 1; filter: brightness(0.2);
+        }
+
+        .scene {
+            height: 100vh; 
+            width: 100%;
+            position: fixed; 
+            top: 0;
+            display: flex; justify-content: center; align-items: center;
+            perspective: 1800px;
+            z-index: 10;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        .loop-container {
+            position: relative;
+            width: var(--face-w);
+            height: var(--face-h);
+            transform-style: preserve-3d;
+            pointer-events: auto;
+        }
+
+        .face {
+            position: absolute;
+            width: var(--face-w);
+            height: var(--face-h);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            cursor: pointer;
+            transition: filter 0.3s, scale 0.3s ease;
+            will-change: transform, scale;
+        }
+
+        .depth-back { filter: brightness(0.4) blur(1.5px); }
+        .depth-front { filter: brightness(1.1); }
+
+        .container-page {
+            position: relative; 
+            margin-top: 85vh; 
+            width: 100%; 
+            background: #fff;
+            min-height: 100vh; 
+            z-index: 200;
+            padding: 40px; 
+            box-sizing: border-box;
+            border-top-left-radius: 40px; 
+            border-top-right-radius: 40px;
+            box-shadow: 0 -20px 80px rgba(0,0,0,1);
+        }
+
+        .drag-handle {
+            width: 40px; height: 5px; background: #ddd; 
+            border-radius: 10px; margin: 0 auto 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="world-bg"></div>
+
+    <div class="scene" id="mainScene">
+        <div class="loop-container" id="loop"></div>
+    </div>
+
+    <div class="container-page" id="dashboard">
+        <div class="drag-handle"></div>
+        <h1 style="color: #333; margin-top: 0;">Dashboard Ready</h1>
+        <p style="color: #666; font-size: 1.1rem;">Ab faces par click karne se link open hoga aur scroll karne par scene upar slide ho jayega.</p>
+        <div style="height: 800px;"></div>
+    </div>
+
+    <script>
+        const config = [
+            { img: 'Stylish_Names.jpg', url: 'https://golutheghost-4444.github.io/Fancy-texts/' },
+            { img: 'Colour_Shades.jpg', url: 'https://golutheghost-4444.github.io/Monochromatic-Colour-Shades-Generator/' },
+            { img: 'Typing_Speed_Pro.jpg', url: 'https://typingspeedpro.netlify.app' },
+            { img: '4.jpg', url: 'https://github.com' },
+            { img: '5.jpg', url: 'https://instagram.com' },
+            { img: '6.jpeg', url: 'https://twitter.com' },
+            { img: '7.jpg', url: 'https://facebook.com' },
+            { img: '8.jpg', url: 'https://apple.com' }
+        ];
+
+        const loop = document.getElementById('loop');
+        const faceWidth = 210;
+        const total = config.length;
+        let currentPos = 0; 
+        let velocity = 0;
+        let isDragging = false;
+        let dragDistance = 0; // Click detect karne ke liye
+        let lastX = 0;
+        let canAutoRotate = true;
+        let idleTimer = null;
+
+        config.forEach((item, i) => {
+            const face = document.createElement('div');
+            face.className = 'face';
+            face.style.backgroundImage = `url(${item.img})`;
+            face.dataset.index = i;
+
+            // REDIRECTION FIX: Drag aur Click ko alag kiya
+            face.addEventListener('mouseup', (e) => {
+                if (dragDistance < 5 && face.classList.contains('depth-front')) {
+                    window.open(item.url, '_blank');
+                }
+            });
+            // Touch devices ke liye
+            face.addEventListener('touchend', (e) => {
+                if (dragDistance < 5 && face.classList.contains('depth-front')) {
+                    window.open(item.url, '_blank');
+                }
+            });
+
+            loop.appendChild(face);
+        });
+
+        function update() {
+            const faces = document.querySelectorAll('.face');
+            const gap = faceWidth / 3;
+            const dynamicRadiusX = (total * (faceWidth + gap)) / 4.2; 
+            faces.forEach(f => {
+                let progress = (parseFloat(f.dataset.index) / total + currentPos) % 1;
+                if (progress < 0) progress += 1;
+                let x, y, z, rX, rY, scale = 1;
+                if (progress < 0.5) {
+                    x = (progress * 4 - 1) * dynamicRadiusX; 
+                    y = 0; z = 400; rX = 0; rY = 0;
+                    const distFromCenter = Math.abs(progress - 0.25);
+                    scale = 1.15 - (distFromCenter * 0.8); 
+                    if(scale < 1) scale = 1;
+                    f.classList.add('depth-front'); f.classList.remove('depth-back'); f.style.zIndex = 100;
+                } else {
+                    let t = (progress - 0.5) * 2; 
+                    x = (1 - t * 2) * dynamicRadiusX;
+                    y = Math.sin(t * Math.PI) * -420; 
+                    z = -600; rX = t * 180; rY = -t * 10; scale = 0.85;
+                    f.classList.add('depth-back'); f.classList.remove('depth-front'); f.style.zIndex = 5;
+                }
+                f.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateX(${rX}deg) rotateY(${rY}deg) scale(${scale})`;
+            });
+        }
+
+        window.onscroll = () => {
+            const y = window.scrollY;
+            const scene = document.getElementById('mainScene');
+            // SEAMLESS SCROLL: Scene ko container ke saath move kiya
+            scene.style.transform = `translateY(${-y * 1.1}px)`;
+            scene.style.opacity = 1 - (y / 600);
+            
+            canAutoRotate = false;
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => { canAutoRotate = true; }, 1000);
+        };
+
+        function animate() {
+            if (!isDragging) {
+                if (canAutoRotate) currentPos += 0.0004;
+                velocity *= 0.95; currentPos += velocity; update();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        const start = (x) => { 
+            isDragging = true; 
+            lastX = x; 
+            velocity = 0; 
+            dragDistance = 0; 
+        };
+        const move = (x) => { 
+            if (!isDragging) return; 
+            const delta = (x - lastX);
+            dragDistance += Math.abs(delta);
+            const moveVal = delta * (0.005 / total);
+            velocity = moveVal; 
+            currentPos += moveVal; 
+            update(); 
+            lastX = x; 
+        };
+
+        window.onmousedown = (e) => start(e.pageX);
+        window.onmousemove = (e) => move(e.pageX);
+        window.onmouseup = () => { isDragging = false; };
+        
+        window.ontouchstart = (e) => start(e.touches[0].pageX);
+        window.ontouchmove = (e) => move(e.touches[0].pageX);
+        window.ontouchend = () => { isDragging = false; };
+
+        update(); animate();
+    </script>
+</body>
+</html>
