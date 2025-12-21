@@ -6,6 +6,9 @@
     <title>GOLu's Web store</title>
     <link rel="icon" type="webp" href="icon.webp">
     <style>
+    * {
+  box-sizing: border-box;
+}
         :root {
             --face-w: 210px; 
             --face-h: 290px; 
@@ -18,7 +21,30 @@
             overflow-x: hidden;
             height: 200vh;
         }
+/* Naye horizontal boxes ke liye styling */
+.full-width-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+}
 
+.special-box {
+    width: 97%;
+    
+    background: linear-gradient(145deg, #f7ecd9, #e6d7be);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        inset -8px -8px 16px rgba(255, 255, 255, 0.45),
+        inset 8px 8px 16px rgba(0, 0, 0, 0.55),
+        0 10px 20px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    color: #333;
+}
+  
         .world-bg {
             position: fixed; top: 0; width: 100%; height: 100%;
             background: url('bg.jpg') center/cover;
@@ -50,40 +76,303 @@
             width: var(--face-w);
             height: var(--face-h);
             border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.3);
             background-size: cover;
             background-position: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
             cursor: pointer;
             transition: filter 0.3s, scale 0.3s ease;
             will-change: transform, scale;
+          box-shadow:
+    inset 12px 12px 25px rgba(0, 0, 0, 0.75),
+    inset -12px -12px 25px rgba(255, 255, 255, 0.25),
+    25px 35px 60px rgba(0, 0, 0, 0.55);  
         }
 
         .depth-back { filter: brightness(0.4) blur(1.5px); }
         .depth-front { filter: brightness(1.1); }
 
         .container-page {
+          display: flex;
+          height:100%;
             position: relative; 
             margin-top: 85vh; 
             width: 100%; 
             background: #fff;
             min-height: 100vh; 
             z-index: 200;
-            padding: 40px; 
             box-sizing: border-box;
-            border-top-left-radius: 40px; 
-            border-top-right-radius: 40px;
-            box-shadow: 0 -20px 80px rgba(0,0,0,1);
+            border-radius: 40px; 
+          margin-bottom: 0px;
+          overflow: hidden;
+          box-shadow:
+    inset 12px 12px 25px rgba(0, 0, 0, 0.65),
+    inset -12px -12px 25px rgba(255, 255, 255, 0.4),
+    25px 35px 60px rgba(0, 0, 0, 0.55);  
         }
 
         .drag-handle {
-            width: 40px; height: 5px; background: #ddd; 
+            width: 40px; height: 5px; background: blue; 
             border-radius: 10px; margin: 0 auto 30px;
+          display: flex; justify-content: center;
+            align-items: center;
         }
+  
+        
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            width: 100%;
+          height:100%;  
+        background: linear-gradient(145deg, #9cc987, #7ea66b);
+  border-radius: 40px;
+  padding: 30px;
+  box-shadow:
+    inset 12px 12px 25px rgba(0, 0, 0, 0.65),
+    inset -12px -12px 25px rgba(255, 255, 255, 0.4),
+    25px 35px 60px rgba(0, 0, 0, 0.55);  
+}
+
+        .link-box {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            overflow: hidden;
+            user-select: none;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(145deg, #f7ecd9, #e6d7be);
+            border-radius: 30px;
+            box-shadow:
+    inset -8px -8px 16px rgba(255, 255, 255, 0.45),
+    inset 8px 8px 16px rgba(0, 0, 0, 0.55),
+    0 14px 28px rgba(0, 0, 0, 0.45); }
+
+      
+
+
+        .link-box.permanent.a {
+            background-image: url('1.png');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+        .link-box.permanent.b {
+            background-image: url('2.png');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+        .link-box.permanent.c {
+            background-image: url('icon.jpg');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+        .link-box.permanent.d {
+            background-image: url('4.jpg');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+          
+        }
+        .link-box.permanent.e {
+            background-image: url('5.jpg');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+        .link-box.permanent.f {
+            background-image: url('6.jpeg');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }.link-box.permanent.g {
+            background-image: url('7.jpg');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+        .link-box.permanent.h {
+            background-image: url('8.jpeg');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+        .link-box.permanent.i {
+            background-image: url('9.png');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+        .link-box.permanent.j {
+            background-image: url('10.png');
+            background-color: #eee2cc;
+          background-size: 150px 200px;
+          background-position: center;
+        }
+    
+        #add-box-trigger {
+            font-size: 40px;
+          justify-content: center;
+            font-weight: bold;
+            background-image: url("5.jpg");
+            width: 150px;
+  height: 150px;
+  background: linear-gradient(145deg, #f7ecd9, #e6d7be);
+  border-radius: 30px;
+          background-size: 150px 150px;
+
+  box-shadow:
+    inset -8px -8px 16px rgba(255, 255, 255, 0.4),
+    inset 8px 8px 16px rgba(0, 0, 0, 0.55),
+    0 14px 28px rgba(0, 0, 0, 0.45); 
+        }
+
+        .link-box p {
+            margin: 0 0 10px;
+            padding: 2px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #749763;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 90%;
+            background-color: transparent;
+            border-radius: 5px;
+          background-size: 150px 200px;
+          background-position: center;
+          text-shadow:
+        -3px -3px 3px rgba(255,255,255,0.6),
+         3px  3px 6px rgba(0,0,0,0.35);
+        }
+
+        #url-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #9cc987, #7ea66b);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+          box-shadow:
+    inset -8px -8px 16px rgba(255, 255, 255, 0.45),
+    inset 8px 8px 16px rgba(0, 0, 0, 0.65),
+    0 14px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .modal-content input[type="url"],
+        .modal-content input[type="text"] {
+            width: 100%;
+          background: #eee2cc;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+          box-shadow:
+    inset -3px -3px 6px rgba(255, 255, 255, 0.75),
+    inset 3px 3px 6px rgba(0, 0, 0, 0.45),
+    0 6px 10px rgba(0, 0, 0, 0.45);
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #done-btn {
+            background-color: #4CAF50;
+            color: white;
+          box-shadow:
+    inset -3px -3px 6px rgba(255, 255, 255, 0.75),
+    inset 3px 3px 6px rgba(0, 0, 0, 0.25),
+    0 6px 10px rgba(0, 0, 0, 0.45);
+        }
+
+        #cancel-btn {
+            background-color: red;
+            color: white;
+          box-shadow:
+    inset -3px -3px 6px rgba(255, 255, 255, 0.75),
+    inset 3px 3px 6px rgba(0, 0, 0, 0.25),
+    0 6px 10px rgba(0, 0, 0, 0.45);
+        }
+
+        .context-menu {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            display: none;
+            overflow: hidden;
+        }
+
+        .context-menu button {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+            transition: background-color 0.1s;
+        }
+
+        .context-menu button:hover {
+            background-color: #d32f2f;
+        }
+
+        .link-box.active .context-menu {
+            display: block;
+        }
+
+        .link-box.permanent .context-menu {
+             display: none;
+        }
+    filter: blur(0.25px);
+}
+  
     </style>
 </head>
 <body>
-
     <div class="world-bg"></div>
 
     <div class="scene" id="mainScene">
@@ -91,11 +380,92 @@
     </div>
 
     <div class="container-page" id="dashboard">
-        <div class="drag-handle"></div>
-        <h1 style="color: #333; margin-top: 0;">Dashboard</h1>
-        <p style="color: #666; font-size: 1.1rem;">Under Construction.</p>
-        <div style="height: 800px;"></div>
+         <div class="container" id="links-container">
+           <div class="full-width-wrapper">
+        <div class="special-box" style="height: 80px;">
+        <h1 style="color:#749763; margin-top: 25px; text-shadow:
+        -3px -3px 3px rgba(255,255,255,0.6),
+         3px  3px 6px rgba(0,0,0,0.35);">Dashboard</h1>
+       
+        </div>
     </div>
+        <a href="https://golutheghost-4444.github.io/Fancy-texts/" class="link-box permanent a" title="Stylish Names">
+            <p>Stylish-Names</p>
+        </a>
+
+        <a href="https://golutheghost-4444.github.io/Monochromatic-Colour-Shades-Generator/" target="_blank" class="link-box permanent b" title="Colour Shades">
+            <p>Colour-Shades</p>
+        </a>
+
+        <a href="https://golu496.github.io/Typing-Trainer-Pro/" target="_blank" class="link-box permanent c" title="Typing Speed Pro">
+            <p>Typing-Speed-Pro</p>
+        </a>
+
+        <a href="https://golu496.github.io/Tic-Tac-Toe_by_GOLu/" target="_blank" class="link-box permanent d" title="Snake & Mongoose">
+            <p>Snake & Mongoose</p>
+        </a>
+
+         <a href="https://golu496.github.io/Tic-Tac-Toe/" target="_blank" class="link-box permanent e" title="Tic Tac Toe">
+            <p>Tic Tac Toe</p>
+        </a>
+
+         <a href="https://golu496.github.io/Flappy-Bird/" target="_blank" class="link-box permanent f" title="Flappy Bird">
+            <p>Flappy Bird</p>
+        </a>
+
+        <a href="https://golu496.github.io/sduyjmhnbdxjmj/" target="_blank" class="link-box permanent g" title="Video Call">
+            <p>Video Call</p>
+        </a>
+
+         <a href="https://golu496.github.io/Gold_pzl_enc_x19k77-Public/" target="_blank" class="link-box permanent h" title="Map">
+            <p>Map</p>
+        </a>
+
+        <a href="https://golutheghost-4444.github.io/Chat-Online-free/" target="_blank" class="link-box permanent i" title="Random Chat">
+            <p>Random Chat</p>
+        </a>
+
+          <a href="https://golutheghost-4444.github.io/Resume-maker-free/" target="_blank" class="link-box permanent j" title="Resume Maker">
+            <p>Resume Maker</p>
+        </a>
+
+
+        <div class="link-box" id="add-box-trigger">
+            +
+        </div>
+           <div class="full-width-wrapper">
+        <div class="special-box" style="height: 200px;">
+           <h1 style="color:#749763; margin-top: 25px; text-shadow:
+        -3px -3px 3px rgba(255,255,255,0.6),
+         3px  3px 6px rgba(0,0,0,0.35);">Under Construction!</h1>
+        </div>
+    </div>
+                      <div class="full-width-wrapper">
+        <div class="specialish-box" style="width:100%; aspect-ratio: 1 / 1; border-radius: 40px; background: #eee2cc; background-image: url('show.jpg'); background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+           box-shadow:
+    inset 12px 12px 25px rgba(0, 0, 0, 0.45),
+    inset -12px -12px 25px rgba(255, 255, 255, 0.4),
+    25px 35px 60px rgba(0, 0, 0, 0.55); "></div>
+    </div>
+    </div>
+
+    <div id="url-modal">
+        <div class="modal-content">
+            <label for="url-input">Paste/Type URL</label>
+            <input type="url" id="url-input" placeholder="https://example.com" required>
+
+            <label for="title-input">Title</label>
+            <input type="text" id="title-input" placeholder="Website Title" required>
+
+            <div style="text-align: right;">
+                <button id="cancel-btn">Cancel</button>
+                <button id="done-btn">Done</button>
+            </div>
+        </div>
+    </div>
+      </div>
 
     <script>
         const config = [
@@ -214,6 +584,168 @@
         window.ontouchend = () => { isDragging = false; };
 
         update(); animate();
+  
+          const addBoxTrigger = document.getElementById('add-box-trigger');
+        const urlModal = document.getElementById('url-modal');
+        const urlInput = document.getElementById('url-input');
+        const titleInput = document.getElementById('title-input');
+        const doneBtn = document.getElementById('done-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const linksContainer = document.getElementById('links-container');
+
+        let pressTimer;
+        function createLinkBox(url, title) {
+            const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
+            const urlObj = new URL(formattedUrl);
+            const baseUrl = urlObj.hostname;
+
+           
+            const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${baseUrl}`;
+
+            const newLinkBox = document.createElement('a');
+            newLinkBox.href = formattedUrl;
+            newLinkBox.target = "_blank";
+            newLinkBox.className = 'link-box user-added';
+            newLinkBox.title = title || formattedUrl;
+            newLinkBox.setAttribute('data-url', formattedUrl);
+            newLinkBox.setAttribute('data-title', title);
+
+           
+            newLinkBox.style.backgroundImage = `url('${faviconUrl}'), url('https://via.placeholder.com/64/cccccc/333333?text=${title.charAt(0).toUpperCase()}')`;
+
+            newLinkBox.innerHTML = `
+                <p>${title}</p>
+                <div class="context-menu">
+                    <button class="remove-btn">Remove</button>
+                </div>
+            `;
+
+          
+            newLinkBox.addEventListener('mousedown', startPress, false);
+            newLinkBox.addEventListener('touchstart', startPress, false);
+            newLinkBox.addEventListener('mouseup', endPress, false);
+            newLinkBox.addEventListener('touchend', endPress, false);
+            newLinkBox.addEventListener('touchmove', endPress, false);
+
+            newLinkBox.querySelector('.remove-btn').addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                if (confirm(`Are you sure you want to remove ${title}?`)) {
+                    newLinkBox.remove();
+                    saveLinks();
+                }
+            });
+
+            newLinkBox.addEventListener('click', (event) => {
+                if (newLinkBox.classList.contains('active')) {
+                    event.preventDefault();
+                    newLinkBox.classList.remove('active');
+                }
+            });
+
+            return newLinkBox;
+        }
+
+       
+        function startPress(event) {
+            if (event.type === 'mousedown' && event.button !== 0) return;
+
+            document.querySelectorAll('.link-box.active').forEach(box => {
+                if (box !== this) box.classList.remove('active');
+            });
+
+            const linkBox = this;
+            if (!linkBox.classList.contains('permanent')) {
+                 pressTimer = setTimeout(() => {
+                    linkBox.classList.add('active');
+                }, 500);
+            }
+        }
+
+        function endPress() {
+            clearTimeout(pressTimer);
+        }
+
+      
+        addBoxTrigger.addEventListener('click', () => {
+            urlModal.style.display = 'flex';
+            urlInput.focus();
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            urlModal.style.display = 'none';
+            urlInput.value = '';
+            titleInput.value = '';
+        });
+
+        doneBtn.addEventListener('click', () => {
+            const url = urlInput.value.trim();
+            const title = titleInput.value.trim();
+
+            if (url && title) {
+                const newLinkBox = createLinkBox(url, title);
+                linksContainer.insertBefore(newLinkBox, addBoxTrigger);
+
+                saveLinks();
+
+                urlModal.style.display = 'none';
+                urlInput.value = '';
+                titleInput.value = '';
+            } else {
+                alert('Please enter both URL and Title.');
+            }
+        });
+
+        titleInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                doneBtn.click();
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.link-box')) {
+                 document.querySelectorAll('.link-box.active').forEach(box => {
+                    box.classList.remove('active');
+                });
+            }
+        });
+
+       
+
+        function saveLinks() {
+            const links = [];
+            document.querySelectorAll('.link-box.user-added').forEach(box => {
+                links.push({
+                    url: box.getAttribute('data-url'),
+                    title: box.getAttribute('data-title')
+                });
+            });
+            localStorage.setItem('quickLinks', JSON.stringify(links));
+        }
+
+        function loadLinks() {
+            const savedLinks = localStorage.getItem('quickLinks');
+            if (savedLinks) {
+                const links = JSON.parse(savedLinks);
+                links.forEach(link => {
+                    const newLinkBox = createLinkBox(link.url, link.title);
+                    linksContainer.insertBefore(newLinkBox, addBoxTrigger);
+                });
+            }
+        }
+
+        
+        document.querySelectorAll('.link-box.permanent').forEach(box => {
+            box.addEventListener('mousedown', startPress, false);
+            box.addEventListener('touchstart', startPress, false);
+            box.addEventListener('mouseup', endPress, false);
+            box.addEventListener('touchend', endPress, false);
+            box.addEventListener('touchmove', endPress, false);
+        });
+
+        window.onload = loadLinks;
+
     </script>
 </body>
 </html>
