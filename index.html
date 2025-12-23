@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="GOLu Store">
 <link rel="apple-touch-icon" href="icon.webp">
 
 <link rel="manifest" href="manifest.json">
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOLu's Web store</title>
-    <link rel="icon" type="webp" href="icon.png">
+    <link rel="icon" type="webp" href="icon.webp">
     <style>
     * {
   box-sizing: border-box;
@@ -154,8 +155,15 @@
             user-select: none;
             width: 150px;
             height: 150px;
-            background: linear-gradient(145deg, #f7ecd9, #e6d7be);
+            background: white;
             border-radius: 30px;
+           -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: auto;
             box-shadow:
     inset -8px -8px 16px rgba(0, 0, 0, 0.45),
     inset 8px 8px 16px rgba(0, 0, 0, 0.45),
@@ -258,7 +266,7 @@
           background-position: center;
         }
 
-    /* Fullscreen Viewer Styling */
+    
 #fullscreen-viewer {
     display: none;
     position: fixed;
@@ -291,10 +299,10 @@
     justify-content: center;
     touch-action: none;
     user-select: none;
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth hiding effect */
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Jab button edge par chhupa ho tab halka transparent ho jaye */
+
 .close-viewer.is-hidden {
     opacity: 0.5;
 }
@@ -515,7 +523,6 @@
 </div>
     
   <script>
-   <script>
     const config = [
         { img: 'Stylish_Names.jpg', url: 'https://golutheghost-4444.github.io/Fancy-texts/' },
         { img: 'Colour_Shades.jpg', url: 'https://golutheghost-4444.github.io/Monochromatic-Colour-Shades-Generator/' },
@@ -799,7 +806,14 @@ urlInput.addEventListener('blur', () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js').then(reg => console.log('SW Registered'));
     }
-</script> 
-    
+  
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker Registered'))
+            .catch(err => console.log('Service Worker Failed', err));
+    });
+}
+</script>
 </body>
 </html>
