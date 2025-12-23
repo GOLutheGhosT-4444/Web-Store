@@ -515,7 +515,7 @@
 </div>
     
   <script>
-    
+   <script>
     const config = [
         { img: 'Stylish_Names.jpg', url: 'https://golutheghost-4444.github.io/Fancy-texts/' },
         { img: 'Colour_Shades.jpg', url: 'https://golutheghost-4444.github.io/Monochromatic-Colour-Shades-Generator/' },
@@ -533,7 +533,7 @@
     let currentPos = 0, velocity = 0, isDragging = false, dragDistance = 0, lastX = 0;
     let canAutoRotate = true, idleTimer = null, autoHideTimer = null;
 
-    
+   
     function triggerFullscreen() {
         const elem = document.documentElement;
         try {
@@ -545,12 +545,9 @@
     function openInFullscreen(url) {
         const viewer = document.getElementById('fullscreen-viewer');
         const iframe = document.getElementById('viewer-iframe');
-        
         iframe.src = url;
         viewer.style.display = 'block';
-
         triggerFullscreen();
-
         
         if(autoHideTimer) clearInterval(autoHideTimer);
         autoHideTimer = setInterval(() => {
@@ -559,119 +556,176 @@
             }
         }, 500);
 
-       
         history.pushState({viewing: "fullscreen"}, "Fullscreen", "#view");
     }
 
     function closeViewer() {
         const viewer = document.getElementById('fullscreen-viewer');
         const iframe = document.getElementById('viewer-iframe');
-        
         clearInterval(autoHideTimer);
         viewer.style.display = 'none';
         iframe.src = ""; 
-
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        }
-        if (window.location.hash === "#view") {
-            history.replaceState(null, "", window.location.pathname);
-        }
+        if (document.fullscreenElement) document.exitFullscreen();
+        if (window.location.hash === "#view") history.replaceState(null, "", window.location.pathname);
     }
 
-    
     window.onpopstate = function() {
-        if (document.getElementById('fullscreen-viewer').style.display === 'block') {
-            closeViewer();
-        }
+        if (document.getElementById('fullscreen-viewer').style.display === 'block') closeViewer();
     };
 
-    
+   
     function makeButtonDraggable() {
         const btn = document.querySelector('.close-viewer');
         let isMoving = false, xOff = 0, yOff = 0, hTimer;
+        const hideToEdge = () => { if (!isMoving) btn.classList.add('is-hidden'); };
+        const resetBtnTimer = () => { btn.classList.remove('is-hidden'); clearTimeout(hTimer); hTimer = setTimeout(hideToEdge, 1000); };
 
-        function hideToEdge() {
-            if (!isMoving) btn.classList.add('is-hidden');
-        }
-
-        function resetBtnTimer() {
-            btn.classList.remove('is-hidden');
-            clearTimeout(hTimer);
-            hTimer = setTimeout(hideToEdge, 1000);
-        }
-
-        btn.addEventListener("touchstart", (e) => {
-            isMoving = true; resetBtnTimer();
-            const touch = e.touches[0];
-            btn.dataset.initX = touch.clientX - xOff;
-            btn.dataset.initY = touch.clientY - yOff;
-        });
-
-        btn.addEventListener("touchmove", (e) => {
-            if (!isMoving) return;
-            e.preventDefault();
-            const touch = e.touches[0];
-            xOff = touch.clientX - btn.dataset.initX;
-            yOff = touch.clientY - btn.dataset.initY;
-            btn.style.transform = `translate3d(${xOff}px, ${yOff}px, 0)`;
-        });
-
+        btn.addEventListener("touchstart", (e) => { isMoving = true; resetBtnTimer(); btn.dataset.initX = e.touches[0].clientX - xOff; btn.dataset.initY = e.touches[0].clientY - yOff; });
+        btn.addEventListener("touchmove", (e) => { if (!isMoving) return; e.preventDefault(); xOff = e.touches[0].clientX - btn.dataset.initX; yOff = e.touches[0].clientY - btn.dataset.initY; btn.style.transform = `translate3d(${xOff}px, ${yOff}px, 0)`; });
         btn.addEventListener("touchend", () => { isMoving = false; resetBtnTimer(); });
-        btn.addEventListener("click", resetBtnTimer);
-
-        
-        btn.addEventListener("mousedown", (e) => {
-            isMoving = true; resetBtnTimer();
-            btn.dataset.initX = e.clientX - xOff;
-            btn.dataset.initY = e.clientY - yOff;
-        });
-        window.addEventListener("mousemove", (e) => {
-            if (!isMoving) return;
-            xOff = e.clientX - btn.dataset.initX;
-            yOff = e.clientY - btn.dataset.initY;
-            btn.style.transform = `translate3d(${xOff}px, ${yOff}px, 0)`;
-        });
+        btn.addEventListener("mousedown", (e) => { isMoving = true; resetBtnTimer(); btn.dataset.initX = e.clientX - xOff; btn.dataset.initY = e.clientY - yOff; });
+        window.addEventListener("mousemove", (e) => { if (!isMoving) return; xOff = e.clientX - btn.dataset.initX; yOff = e.clientY - btn.dataset.initY; btn.style.transform = `translate3d(${xOff}px, ${yOff}px, 0)`; });
         window.addEventListener("mouseup", () => { isMoving = false; resetBtnTimer(); });
-
+        btn.addEventListener("click", resetBtnTimer);
         hTimer = setTimeout(hideToEdge, 1000);
     }
 
+function createLinkBox(url, title) {
+    const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
+    const urlObj = new URL(formattedUrl);
+    const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${urlObj.hostname}`;
+
+   
+    const newLinkBox = document.createElement('div');
+    newLinkBox.className = 'link-box user-added';
+    newLinkBox.dataset.targetUrl = formattedUrl;
+    newLinkBox.dataset.title = title;
+
+    newLinkBox.innerHTML = `
+        <p>${title}</p>
+        <div class="context-menu" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); border-radius:30px; justify-content:center; align-items:center; z-index:10;">
+            <button class="remove-btn" style="background:red; color:white; border:none; border-radius:50%; width:50px; height:50px; cursor:pointer; font-weight:bold; font-size:20px;">X</button>
+        </div>`;
+
     
+    newLinkBox.style.backgroundImage = `url('${faviconUrl}')`;
+    newLinkBox.style.backgroundSize = "64px";
+    newLinkBox.style.backgroundRepeat = "no-repeat";
+    newLinkBox.style.backgroundPosition = "center 40%";
+    newLinkBox.style.position = "relative";
+
+    
+    newLinkBox.oncontextmenu = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    };
+
+    let pressTimer;
+    let isLongPress = false;
+
+    
+    const startPress = () => {
+        isLongPress = false;
+        pressTimer = setTimeout(() => {
+            newLinkBox.querySelector('.context-menu').style.display = 'flex';
+            isLongPress = true;
+        }, 500); 
+    };
+
+    const endPress = () => { clearTimeout(pressTimer); };
+
+    
+    newLinkBox.addEventListener('mousedown', startPress);
+    newLinkBox.addEventListener('touchstart', startPress);
+    newLinkBox.addEventListener('mouseup', endPress);
+    newLinkBox.addEventListener('touchend', endPress);
+
+  
+    newLinkBox.onclick = (e) => {
+        const menu = newLinkBox.querySelector('.context-menu');
+        
+        
+        if (e.target.classList.contains('remove-btn')) {
+            e.stopPropagation();
+            if(confirm(`Remove ${title}?`)) {
+                newLinkBox.remove();
+                saveLinks();
+            }
+            return;
+        }
+
+        
+        if (menu.style.display === 'none' && !isLongPress) {
+            window.open(newLinkBox.dataset.targetUrl, '_blank');
+        } else {
+            menu.style.display = 'none';
+        }
+    };
+
+    return newLinkBox;
+}
+  
+    function saveLinks() {
+    const links = [];
+    document.querySelectorAll('.link-box.user-added').forEach(box => {
+        links.push({ 
+            url: box.dataset.targetUrl, 
+            title: box.dataset.title 
+        });
+    });
+    localStorage.setItem('quickLinks', JSON.stringify(links));
+}
+
+document.getElementById('done-btn').onclick = () => {
+    const urlInput = document.getElementById('url-input');
+    const titleInput = document.getElementById('title-input');
+    const url = urlInput.value.trim();
+    const title = titleInput.value.trim();
+
+    if(url && title) {
+        const box = createLinkBox(url, title);
+        const trigger = document.getElementById('add-box-trigger');
+        trigger.parentNode.insertBefore(box, trigger);
+        saveLinks();
+        
+        document.getElementById('url-modal').style.display = 'none';
+        urlInput.value = '';
+        titleInput.value = '';
+    }
+};
+
+    function loadLinks() {
+        const saved = JSON.parse(localStorage.getItem('quickLinks') || "[]");
+        const trigger = document.getElementById('add-box-trigger');
+        saved.forEach(l => trigger.parentNode.insertBefore(createLinkBox(l.url, l.title), trigger));
+    }
+
+   
     config.forEach((item, i) => {
         const face = document.createElement('div');
         face.className = 'face';
         face.style.backgroundImage = `url(${item.img})`;
         face.dataset.index = i;
-        face.addEventListener('mouseup', () => {
-            if (dragDistance < 5 && face.classList.contains('depth-front')) openInFullscreen(item.url);
-        });
-        face.addEventListener('touchend', () => {
-            if (dragDistance < 5 && face.classList.contains('depth-front')) openInFullscreen(item.url);
-        });
+        face.addEventListener('mouseup', () => { if (dragDistance < 5 && face.classList.contains('depth-front')) openInFullscreen(item.url); });
+        face.addEventListener('touchend', () => { if (dragDistance < 5 && face.classList.contains('depth-front')) openInFullscreen(item.url); });
         loop.appendChild(face);
     });
 
     function update() {
         const faces = document.querySelectorAll('.face');
-        const gap = faceWidth / 3;
-        const dynamicRadiusX = (total * (faceWidth + gap)) / 4.2; 
+        const dynamicRadiusX = (total * (faceWidth + (faceWidth/3))) / 4.2; 
         faces.forEach(f => {
             let progress = (parseFloat(f.dataset.index) / total + currentPos) % 1;
             if (progress < 0) progress += 1;
             let x, y, z, rX, rY, scale = 1;
             if (progress < 0.5) {
-                x = (progress * 4 - 1) * dynamicRadiusX; 
-                y = 0; z = 400; rX = 0; rY = 0;
-                const distFromCenter = Math.abs(progress - 0.25);
-                scale = 1.15 - (distFromCenter * 0.8); 
-                if(scale < 1) scale = 1;
+                x = (progress * 4 - 1) * dynamicRadiusX; y = 0; z = 400; rX = 0; rY = 0;
+                scale = 1.15 - (Math.abs(progress - 0.25) * 0.8);
                 f.classList.add('depth-front'); f.classList.remove('depth-back'); f.style.zIndex = 100;
             } else {
-                let t = (progress - 0.5) * 2; 
-                x = (1 - t * 2) * dynamicRadiusX;
-                y = Math.sin(t * Math.PI) * -420; 
-                z = -600; rX = t * 180; rY = -t * 10; scale = 0.85;
+                let t = (progress - 0.5) * 2; x = (1 - t * 2) * dynamicRadiusX;
+                y = Math.sin(t * Math.PI) * -420; z = -600; rX = t * 180; rY = -t * 10; scale = 0.85;
                 f.classList.add('depth-back'); f.classList.remove('depth-front'); f.style.zIndex = 5;
             }
             f.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateX(${rX}deg) rotateY(${rY}deg) scale(${scale})`;
@@ -679,111 +733,73 @@
     }
 
     function animate() {
-        if (!isDragging) {
-            if (canAutoRotate) currentPos += 0.0004;
-            velocity *= 0.95; currentPos += velocity; update();
-        }
+        if (!isDragging) { if (canAutoRotate) currentPos += 0.0004; velocity *= 0.95; currentPos += velocity; update(); }
         requestAnimationFrame(animate);
     }
 
-    
     window.onscroll = () => {
         const y = window.scrollY;
-        const scene = document.getElementById('mainScene');
-        scene.style.transform = `translateY(${-y * 1.1}px)`;
-        scene.style.opacity = 1 - (y / 600);
-        canAutoRotate = false;
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(() => { canAutoRotate = true; }, 1000);
+        document.getElementById('mainScene').style.transform = `translateY(${-y * 1.1}px)`;
+        document.getElementById('mainScene').style.opacity = 1 - (y / 600);
+        canAutoRotate = false; clearTimeout(idleTimer); idleTimer = setTimeout(() => { canAutoRotate = true; }, 1000);
     };
 
-    
     const start = (x) => { isDragging = true; lastX = x; velocity = 0; dragDistance = 0; };
-    const move = (x) => { 
-        if (!isDragging) return; 
-        const delta = (x - lastX);
-        dragDistance += Math.abs(delta);
-        const moveVal = delta * (0.005 / total);
-        velocity = moveVal; currentPos += moveVal; update(); lastX = x; 
-    };
+    const move = (x) => { if (!isDragging) return; const delta = x - lastX; dragDistance += Math.abs(delta); currentPos += delta * (0.005 / total); velocity = delta * (0.005 / total); update(); lastX = x; };
 
-    window.onmousedown = (e) => start(e.pageX);
-    window.onmousemove = (e) => move(e.pageX);
-    window.onmouseup = () => { isDragging = false; };
-    window.ontouchstart = (e) => start(e.touches[0].pageX);
-    window.ontouchmove = (e) => move(e.touches[0].pageX);
-    window.ontouchend = () => { isDragging = false; };
+    window.onmousedown = (e) => start(e.pageX); window.onmousemove = (e) => move(e.pageX); window.onmouseup = () => { isDragging = false; };
+    window.ontouchstart = (e) => start(e.touches[0].pageX); window.ontouchmove = (e) => move(e.touches[0].pageX); window.ontouchend = () => { isDragging = false; };
 
-    
     const addBoxTrigger = document.getElementById('add-box-trigger');
     const urlModal = document.getElementById('url-modal');
-    const urlInput = document.getElementById('url-input');
-    const titleInput = document.getElementById('title-input');
-    const doneBtn = document.getElementById('done-btn');
-    const cancelBtn = document.getElementById('cancel-btn');
-    const linksContainer = document.getElementById('links-container');
-
-    function createLinkBox(url, title) {
-        const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
-        const urlObj = new URL(formattedUrl);
-        const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${urlObj.hostname}`;
-        const newLinkBox = document.createElement('a');
-        newLinkBox.className = 'link-box user-added';
-        newLinkBox.innerHTML = `<p>${title}</p><div class="context-menu"><button class="remove-btn">Remove</button></div>`;
-        newLinkBox.style.backgroundImage = `url('${faviconUrl}')`;
-        newLinkBox.style.backgroundSize = "64px";
-        newLinkBox.style.backgroundRepeat = "no-repeat";
-        newLinkBox.style.backgroundPosition = "center 40%";
-        
-        newLinkBox.onclick = (e) => {
-            if(!newLinkBox.classList.contains('active')) openInFullscreen(formattedUrl);
-        };
-
-        
-        newLinkBox.querySelector('.remove-btn').onclick = (e) => {
-            e.stopPropagation();
-            if(confirm("Remove this link?")) { newLinkBox.remove(); saveLinks(); }
-        };
-        return newLinkBox;
-    }
-
-    function saveLinks() {
-        const links = [];
-        document.querySelectorAll('.link-box.user-added').forEach(box => {
-            links.push({ url: box.dataset.url, title: box.dataset.title });
-        });
-        localStorage.setItem('quickLinks', JSON.stringify(links));
-    }
-
-    function loadLinks() {
-        const saved = JSON.parse(localStorage.getItem('quickLinks') || "[]");
-        saved.forEach(l => linksContainer.insertBefore(createLinkBox(l.url, l.title), addBoxTrigger));
-    }
-
     addBoxTrigger.onclick = () => { urlModal.style.display = 'flex'; };
-    cancelBtn.onclick = () => { urlModal.style.display = 'none'; };
-    doneBtn.onclick = () => {
-        const box = createLinkBox(urlInput.value, titleInput.value);
-        linksContainer.insertBefore(box, addBoxTrigger);
-        saveLinks();
-        urlModal.style.display = 'none';
+  
+  const urlInput = document.getElementById('url-input');
+
+urlInput.addEventListener('focus', () => {
+    if (urlInput.value === '') {
+        urlInput.value = 'https://';
+    }
+});
+
+
+urlInput.addEventListener('input', (e) => {
+    let value = urlInput.value;
+    
+   
+    if (value.startsWith('https://https://')) {
+        urlInput.value = value.replace('https://https://', 'https://');
+    } else if (value.startsWith('https://http://')) {
+        urlInput.value = value.replace('https://http://', 'http://');
+    }
+});
+
+urlInput.addEventListener('blur', () => {
+    if (urlInput.value === 'https://') {
+        urlInput.value = '';
+    }
+});
+  
+    document.getElementById('cancel-btn').onclick = () => { urlModal.style.display = 'none'; };
+    document.getElementById('done-btn').onclick = () => {
+        const url = document.getElementById('url-input').value;
+        const title = document.getElementById('title-input').value;
+        if(url && title) {
+            const box = createLinkBox(url, title);
+            addBoxTrigger.parentNode.insertBefore(box, addBoxTrigger);
+            saveLinks();
+            urlModal.style.display = 'none';
+            document.getElementById('url-input').value = '';
+            document.getElementById('title-input').value = '';
+        }
     };
 
-   
-    window.onload = () => {
-        loadLinks();
-        update();
-        animate();
-        makeButtonDraggable();
-    };
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('Service Worker Registered'))
-            .catch(err => console.log('Service Worker Failed', err));
-    });
-}
-      
-</script>
+    window.onload = () => { loadLinks(); update(); animate(); makeButtonDraggable(); };
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(reg => console.log('SW Registered'));
+    }
+</script> 
+    
 </body>
 </html>
