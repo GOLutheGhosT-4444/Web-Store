@@ -779,7 +779,8 @@ document.getElementById('done-btn').onclick = () => {
     }
 
   
-let currentEngine = 'google';
+let currentEngine = localStorage.getItem('selectedEngine') || 'google';
+
 const engines = {
     google: { name: 'Google', url: 'https://www.google.com/search?q=', icon: 'https://www.google.com/favicon.ico' },
     bing: { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'https://www.bing.com/favicon.ico' },
@@ -793,9 +794,14 @@ const searchInput = document.getElementById('searchInput');
 const engineSelector = document.getElementById('engineSelector');
 const currentIcon = document.getElementById('currentEngineIcon');
 
+function initEngine() {
+    const engine = engines[currentEngine];
+    currentIcon.style.backgroundImage = `url('${engine.icon}')`;
+    searchInput.placeholder = `Search ${engine.name}...`;
+}
+
 let pressTimer;
 
-// Long Press Detection (Hold)
 searchBox.addEventListener('mousedown', () => {
     pressTimer = setTimeout(() => engineSelector.style.display = 'flex', 600);
 });
@@ -805,28 +811,31 @@ searchBox.addEventListener('touchstart', () => {
 window.addEventListener('mouseup', () => clearTimeout(pressTimer));
 window.addEventListener('touchend', () => clearTimeout(pressTimer));
 
-// Change Engine Function
 function setEngine(id) {
     currentEngine = id;
-    currentIcon.style.backgroundImage = `url('${engines[id].icon}')`;
-    searchInput.placeholder = `Search ${engines[id].name}...`;
+    localStorage.setItem('selectedEngine', id);
+    
+    const engine = engines[id];
+    currentIcon.style.backgroundImage = `url('${engine.icon}')`;
+    searchInput.placeholder = `Search ${engine.name}...`;
     engineSelector.style.display = 'none';
     searchInput.focus();
 }
 
-// Perform Search on Enter
+
 searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && searchInput.value.trim() !== "") {
         window.open(engines[currentEngine].url + encodeURIComponent(searchInput.value), '_blank');
     }
 });
 
-// Hide menu if clicked outside
 window.addEventListener('click', (e) => {
     if (!searchBox.contains(e.target) && !engineSelector.contains(e.target)) {
         engineSelector.style.display = 'none';
     }
 });
+
+initEngine();
   
     function animate() {
         if (!isDragging) { if (canAutoRotate) currentPos += 0.0004; velocity *= 0.95; currentPos += velocity; update(); }
