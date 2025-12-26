@@ -39,7 +39,7 @@
 
 .special-box {
     width: 97%;
-    
+   
     background: white;
     border-radius: 40px;
     display: flex;
@@ -52,6 +52,30 @@
     font-weight: bold;
     color: #333;
 }
+  
+  .search-wrapper { width: 96%; display: flex; height: 80px; flex-direction: column; align-items: center; position: relative; z-index: 1000; background:blue; border-radius: 50px;}
+    .search-container { 
+        width: 100%; height:100%; max-width: 600px; background: #fff; border-radius: 50px; 
+        display: flex; align-items: center; padding: 5px 50px; 
+        box-shadow:
+    inset -8px -8px 16px rgba(0, 0, 0, 0.45),
+    inset 8px 8px 16px rgba(0, 0, 0, 0.45),
+    0px 0px 33px rgba(0, 0, 0, 0.9); 
+        transition: 0.3s; position: relative; user-select: none;
+    }
+    .engine-icon { width: 30px; height: 30px; margin-right: 12px; background-size: contain; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
+    .search-container input { border: none; outline: none; width: 100%; height: 50px; font-size: 18px; background: transparent; color: #333; }
+    
+    .engine-selector { 
+        position: absolute; top: 65px; background: linear-gradient(145deg, #9cc987, #7ea66b); border-radius: 20px; 
+        display: none; flex-direction: column; overflow: hidden; 
+        box-shadow:
+    inset -8px -8px 16px rgba(255, 255, 255, 0.65),
+    inset 8px 8px 16px rgba(0, 0, 0, 0.25)
+    }
+    .engine-option { padding: 12px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; color: #333; font-weight: bold; border-bottom: 1px solid #eee; }
+    .engine-option:hover { background: #f5f5f5; }
+    .engine-option img { width: 24px; height: 24px; }
   
         .world-bg {
             position: fixed; top: 0; width: 100%; height: 100%;
@@ -436,10 +460,24 @@
     <div class="container-page" id="dashboard">
          <div class="container" id="links-container">
            <div class="full-width-wrapper">
-        <div class="special-box" style="height: 80px;">
-        <h1 style="color:#749763; margin-top: 25px;">Dashboard</h1>
+             
+        
+        <div class="search-wrapper">
+    <div class="search-container" id="searchBox">
+        <div class="engine-icon" id="currentEngineIcon" style="background-image: url('https://www.google.com/favicon.ico');"></div>
+        <input type="text" id="searchInput" placeholder="Search Google..." autocomplete="off">
+    </div>
+    
+    <div class="engine-selector" id="engineSelector">
+        <div class="engine-option" onclick="setEngine('google')"><img src="https://www.google.com/favicon.ico"> Google</div>
+        <div class="engine-option" onclick="setEngine('bing')"><img src="https://www.bing.com/favicon.ico"> Bing</div>
+        <div class="engine-option" onclick="setEngine('yahoo')"><img src="https://www.yahoo.com/favicon.ico"> Yahoo</div>
+        <div class="engine-option" onclick="setEngine('duck')"><img src="https://duckduckgo.com/favicon.ico"> DuckDuckGo</div>
+        <div class="engine-option" onclick="setEngine('youtube')"><img src="https://www.youtube.com/favicon.ico"> YouTube</div>
+    </div>
+</div>
        
-        </div>
+             
     </div>
         <a href="javascript:void(0)" onclick="openInFullscreen('https://golutheghost-4444.github.io/Fancy-texts/')" class="link-box permanent a" title="Stylish Names">
     <p>Stylish-Names</p>
@@ -491,13 +529,14 @@
         </div>
     </div>
                       <div class="full-width-wrapper">
-        <div class="specialish-box" style="width:100%; aspect-ratio: 1 / 1; border-radius: 40px; background: white; background-image: url('show.jpg'); background-size: cover;
+        <div class="specialish-box" style="width:100%; aspect-ratio: 1 / 1; border-radius: 40px; background: white; background-image: url('show.jpg'); background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
            box-shadow:
     inset 12px 12px 25px rgba(0, 0, 0, 0.45),
     inset -12px -12px 25px rgba(0, 0, 0, 0.55),
-    0px 0px 33px rgba(0, 0, 0, 0.9); "></div>
+          0px 0px 33px rgba(0, 0, 0, 0.9);" onclick="window.location.href='mailto:goluy1036@gmail.com'" ;>
+        </div>
     </div>
     </div>
 
@@ -739,6 +778,56 @@ document.getElementById('done-btn').onclick = () => {
         });
     }
 
+  
+let currentEngine = 'google';
+const engines = {
+    google: { name: 'Google', url: 'https://www.google.com/search?q=', icon: 'https://www.google.com/favicon.ico' },
+    bing: { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'https://www.bing.com/favicon.ico' },
+    yahoo: { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=', icon: 'https://www.yahoo.com/favicon.ico' },
+    duck: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=', icon: 'https://duckduckgo.com/favicon.ico' },
+    youtube: { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=', icon: 'https://www.youtube.com/favicon.ico' }
+};
+
+const searchBox = document.getElementById('searchBox');
+const searchInput = document.getElementById('searchInput');
+const engineSelector = document.getElementById('engineSelector');
+const currentIcon = document.getElementById('currentEngineIcon');
+
+let pressTimer;
+
+// Long Press Detection (Hold)
+searchBox.addEventListener('mousedown', () => {
+    pressTimer = setTimeout(() => engineSelector.style.display = 'flex', 600);
+});
+searchBox.addEventListener('touchstart', () => {
+    pressTimer = setTimeout(() => engineSelector.style.display = 'flex', 600);
+});
+window.addEventListener('mouseup', () => clearTimeout(pressTimer));
+window.addEventListener('touchend', () => clearTimeout(pressTimer));
+
+// Change Engine Function
+function setEngine(id) {
+    currentEngine = id;
+    currentIcon.style.backgroundImage = `url('${engines[id].icon}')`;
+    searchInput.placeholder = `Search ${engines[id].name}...`;
+    engineSelector.style.display = 'none';
+    searchInput.focus();
+}
+
+// Perform Search on Enter
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && searchInput.value.trim() !== "") {
+        window.open(engines[currentEngine].url + encodeURIComponent(searchInput.value), '_blank');
+    }
+});
+
+// Hide menu if clicked outside
+window.addEventListener('click', (e) => {
+    if (!searchBox.contains(e.target) && !engineSelector.contains(e.target)) {
+        engineSelector.style.display = 'none';
+    }
+});
+  
     function animate() {
         if (!isDragging) { if (canAutoRotate) currentPos += 0.0004; velocity *= 0.95; currentPos += velocity; update(); }
         requestAnimationFrame(animate);
