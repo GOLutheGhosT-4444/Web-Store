@@ -1,676 +1,458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="theme-color" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="GOLu Store">
-<link rel="apple-touch-icon" href="icon.webp">
-
-<link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#131314">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GOLu Store">
+  <link rel="apple-touch-icon" href="icon.webp">
+  <link rel="manifest" href="manifest.json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOLu's Web Store</title>
+  <link rel="icon" type="webp" href="icon.webp">
+  <!-- Modern Clean Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOLu's Web store</title>
-    <link rel="icon" type="webp" href="icon.webp">
-    <style>
+  <style>
     * {
-  box-sizing: border-box;
-}
-        :root {
-            --face-w: 210px; 
-            --face-h: 290px; 
-        }
-
-        body, html {
-            margin: 0; padding: 0;
-            background: #000;
-            font-family: sans-serif;
-            overflow-x: hidden;
-            height: 200vh;
-        }
-
-.full-width-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    
-}
-
-.special-box {
-    width: 97%;
-   
-    background: white;
-    border-radius: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-        inset -8px -8px 16px rgba(0, 0, 0, 0.45),
-        inset 8px 8px 16px rgba(0, 0, 0, 0.45),
-        0px 0px 33px rgba(0, 0, 0, 0.9);
-    font-weight: bold;
-    color: #333;
-}
-  
-  .search-wrapper { width: 96%; display: flex; height: 80px; flex-direction: column; align-items: center; position: relative; z-index: 1000; background:blue; border-radius: 50px;}
-    .search-container { 
-        width: 100%; height:100%; background: #fff; border-radius: 50px; 
-        display: flex; align-items: center; padding: 5px 50px; 
-        box-shadow:
-    inset -8px -8px 16px rgba(0, 0, 0, 0.45),
-    inset 8px 8px 16px rgba(0, 0, 0, 0.45),
-    0px 0px 33px rgba(0, 0, 0, 0.9); 
-        transition: 0.3s; position: relative; user-select: none;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
     }
-    .engine-icon { width: 30px; height: 30px; margin-right: 12px; background-size: contain; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
-    .search-container input { border: none; outline: none; width: 100%; height: 50px; font-size: 18px; background: transparent; color: #333; }
+    :root {
+      --bg-color: #131314; /* Gemini Dark Background */
+      --surface-color: #1e1f20;
+      --text-main: #e3e3e3;
+      --text-muted: #c4c7c5;
+    }
+
+    body, html {
+      margin: 0; padding: 0;
+      background: var(--bg-color);
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* 🌟 Top Animated Glow (Gemini Aura) 🌟 */
+    .top-glow {
+      position: fixed;
+      top: -50px;
+      left: 0;
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(90deg, #4285f4, #9b72cb, #d96570, #f4b400, #4285f4);
+      background-size: 200% auto;
+      animation: gradient-flow 6s linear infinite;
+      filter: blur(70px);
+      opacity: 0.45; /* Glow intensity */
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 🌟 Gemini Style Animated Header 🌟 */
+    .gemini-header {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 20px 20px;
+      z-index: 10;
+      position: relative;
+    }
+    
+    .gradient-text {
+      font-size: 3.8rem;
+      font-weight: 500;
+      margin: 0;
+      background: linear-gradient(90deg, #4285f4, #9b72cb, #d96570, #4285f4);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: gradient-flow 4s linear infinite;
+      letter-spacing: -1.5px;
+    }
+
+    .sub-text {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-weight: 300;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* To keep it readable over glow */
+    }
+
+    @keyframes gradient-flow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* Clean Search Bar */
+    .search-wrapper { 
+      width: 90%; 
+      max-width: 800px;
+      margin: 20px auto 50px;
+      position: relative; 
+      z-index: 1000;
+    }
+
+    .search-container { 
+      width: 100%; 
+      background: var(--surface-color); 
+      border-radius: 40px; 
+      display: flex; 
+      align-items: center; 
+      padding: 5px 25px; 
+      transition: all 0.3s ease; 
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .search-container:focus-within {
+      background: #2a2b2e;
+      border: 1px solid #4285f4;
+      box-shadow: 0 0 25px rgba(66, 133, 244, 0.25);
+    }
+
+    .engine-icon { 
+      width: 24px; height: 24px; 
+      margin-right: 15px; 
+      background-size: contain; 
+      background-repeat: no-repeat; 
+      background-position: center; 
+      flex-shrink: 0; 
+      cursor: pointer;
+    }
+
+    .search-container input { 
+      border: none; outline: none; 
+      width: 100%; height: 60px; 
+      font-size: 18px; 
+      background: transparent; 
+      color: var(--text-main); 
+    }
+    .search-container input::placeholder { color: #888; }
     
     .engine-selector { 
-        position: absolute; top: 65px; background: linear-gradient(145deg, #9cc987, #7ea66b); border-radius: 20px; 
-        display: none; flex-direction: column; overflow: hidden; 
-        box-shadow:
-    inset -8px -8px 16px rgba(255, 255, 255, 0.65),
-    inset 8px 8px 16px rgba(0, 0, 0, 0.25)
+      position: absolute; top: 80px; left: 0;
+      background: var(--surface-color); 
+      border-radius: 20px; 
+      display: none; flex-direction: column; overflow: hidden; 
+      border: 1px solid rgba(255,255,255,0.1);
+      width: 250px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
-    .engine-option { padding: 12px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; color: #333; font-weight: bold; border-bottom: 1px solid #eee; }
-    .engine-option:hover { background: #f5f5f5; }
-    .engine-option img { width: 24px; height: 24px; }
-  
-        .world-bg {
-            position: fixed; top: 0; width: 100%; height: 100%;
-            background: url('bg.jpg') center/cover;
-            z-index: 1; filter: brightness(0.2);
-        }
-
-        .scene {
-            height: 100vh; 
-            width: 100%;
-            position: fixed; 
-            top: 0;
-            display: flex; justify-content: center; align-items: center;
-            perspective: 1800px;
-            z-index: 10;
-            pointer-events: none;
-            will-change: transform, opacity;
-        }
-
-        .loop-container {
-            position: relative;
-            width: var(--face-w);
-            height: var(--face-h);
-            transform-style: preserve-3d;
-            pointer-events: auto;
-        }
-
-        .face {
-            position: absolute;
-            width: var(--face-w);
-            height: var(--face-h);
-            border-radius: 18px;
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            transition: filter 0.3s, scale 0.3s ease;
-            will-change: transform, scale;
-          box-shadow:
-    inset 12px 12px 25px rgba(0, 0, 0, 0.9),
-    inset -12px -12px 25px rgba(255, 255, 255, 0.25),
-    25px 35px 60px rgba(0, 0, 0, 0.55);  
-        }
-
-        .depth-back { filter: brightness(0.4) blur(1.5px); }
-        .depth-front { filter: brightness(1.1); }
-
-        .container-page {
-          display: flex;
-          height:auto;
-            position: relative; 
-            margin-top: 85vh; 
-            width: 100%; 
-            background: #fff;
-            min-height: 100vh; 
-            z-index: 200;
-            box-sizing: border-box;
-            border-radius: 40px; 
-          margin-bottom: 0px;
-          overflow: hidden;
-          box-shadow:
-    inset 12px 12px 25px rgba(0, 0, 0, 0.65),
-    inset -12px -12px 25px rgba(255, 255, 255, 0.4),
-    25px 35px 60px rgba(0, 0, 0, 0.55);  
-        }
-
-        .drag-handle {
-            width: 40px; height: 5px; background: blue; 
-            border-radius: 10px; margin: 0 auto 30px;
-          display: flex; justify-content: center;
-            align-items: center;
-        }
-  
-        
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            justify-content: center;
-            width: 100%;
-          height:100%;  
-        background: linear-gradient(145deg, #9cc987, #7ea66b);
-  border-radius: 40px;
-  padding: 30px;
-  box-shadow:
-    inset 12px 12px 25px rgba(0, 0, 0, 0.65),
-    inset -12px -12px 25px rgba(255, 255, 255, 0.4),
-    25px 35px 60px rgba(0, 0, 0, 0.55);  
-}
-
-        .link-box {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-            overflow: hidden;
-            user-select: none;
-            width: 150px;
-            height: 150px;
-            background: white;
-            border-radius: 30px;
-           -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    pointer-events: auto;
-            box-shadow:
-    inset -8px -8px 16px rgba(0, 0, 0, 0.45),
-    inset 8px 8px 16px rgba(0, 0, 0, 0.45),
-    0 0px 33px rgba(0, 0, 0, 0.9); }
-
-      
-
-
-        .link-box.permanent.a {
-            background-image: url('Stylish_Names.jpg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
-        .link-box.permanent.b {
-            background-image: url('Colour_Shades.jpg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
-        .link-box.permanent.c {
-            background-image: url('Typing_Speed_Pro.jpg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
-        .link-box.permanent.d {
-            background-image: url('4.jpg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-          
-        }
-        .link-box.permanent.e {
-            background-image: url('5.jpg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
-        .link-box.permanent.f {
-            background-image: url('6.jpeg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }.link-box.permanent.g {
-            background-image: url('7.jpg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
-        .link-box.permanent.h {
-            background-image: url('8.jpeg');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
-        .link-box.permanent.i {
-            background-image: url('9.png');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
-        .link-box.permanent.j {
-            background-image: url('10.png');
-            background-color: white;
-          background-size: 150px 200px;
-          background-position: center;
-        }
     
-        #add-box-trigger {
-            font-size: 40px;
-          justify-content: center;
-            font-weight: bold;
-            background-image: url("5.jpg");
-            width: 150px;
-  height: 150px;
-  background: white;
-  border-radius: 30px;
-          background-size: 150px 150px;
+    .engine-option { 
+      padding: 15px 20px; display: flex; align-items: center; gap: 15px; 
+      cursor: pointer; color: var(--text-main); font-weight: 400; 
+      transition: 0.2s;
+    }
+    .engine-option:hover { background: rgba(255,255,255,0.08); }
+    .engine-option img { width: 20px; height: 20px; border-radius: 4px; }
 
-  box-shadow:
-    inset -8px -8px 16px rgba(0, 0, 0, 0.45),
-    inset 8px 8px 16px rgba(0, 0, 0, 0.45),
-    0px 0px 33px rgba(0, 0, 0, 0.9); 
-        }
+    /* Links Grid */
+    .container-page {
+      width: 100%; 
+      background: transparent;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 100px;
+      position: relative;
+    }
 
-        .link-box p {
-            margin: 0 0 10px;
-            padding: 2px;
-            font-size: 14px;
-            font-weight: 500;
-            color: black;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 90%;
-            background-color: transparent;
-            border-radius: 5px;
-          background-position: center;
-        }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 25px;
+      width: 90%;
+      max-width: 1000px;
+      padding: 20px;
+    }
 
+    .link-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: var(--surface-color);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .link-box:hover {
+      transform: translateY(-5px);
+      background: #2a2b2e;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+    }
+
+    .link-box.permanent {
+      background-size: cover;
+      background-position: center;
+    }
     
-#fullscreen-viewer {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: #000;
-    z-index: 99999;
-}
-#fullscreen-viewer iframe {
-    width: 100%; height: 100%;
-    border: none;
-    background: #fff;
-}
+    .link-box::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9));
+      z-index: 1;
+    }
 
-  .close-viewer {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 45px;
-    height: 45px;
-    background: rgba(255, 0, 0, 0.8);
-    color: white;
-    border: 2px solid white;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: move;
-    z-index: 100000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    touch-action: none;
-    user-select: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
+    .link-box p {
+      margin: 0 0 15px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      text-align: center;
+      z-index: 2;
+      width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-
-.close-viewer.is-hidden {
-    opacity: 0.5;
-}
+    #add-box-trigger {
+      font-size: 40px;
+      justify-content: center;
+      font-weight: 300;
+      background: var(--surface-color);
+      color: var(--text-muted);
+      border: 2px dashed rgba(255,255,255,0.15);
+    }
+    #add-box-trigger::after { display: none; }
     
-        #url-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
+    #add-box-trigger:hover {
+      border-color: #4285f4;
+      color: #4285f4;
+    }
 
-        .modal-content {
-            background: linear-gradient(145deg, #9cc987, #7ea66b);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            width: 90%;
-            max-width: 400px;
-          box-shadow:
-    inset -8px -8px 16px rgba(255, 255, 255, 0.45),
-    inset 8px 8px 16px rgba(0, 0, 0, 0.65),
-    0 14px 28px rgba(0, 0, 0, 0.45);
-        }
+    /* Modal Styling */
+    #url-modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none; justify-content: center; align-items: center; z-index: 9999;
+    }
 
-        .modal-content label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-            font-size: 14px;
-        }
+    .modal-content {
+      background: var(--surface-color);
+      padding: 30px;
+      border-radius: 24px;
+      width: 90%; max-width: 400px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
 
-        .modal-content input[type="url"],
-        .modal-content input[type="text"] {
-            width: 100%;
-          background: white;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 0px solid #ccc;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
-          box-shadow:
-    inset -6px -6px 6px rgba(0, 0, 0, 0.25),
-    inset 6px 6px 6px rgba(0, 0, 0, 0.45),
-    0 0px 33px rgba(0, 0, 0, 0.7);
-        }
+    .modal-content label {
+      display: block; margin-bottom: 8px;
+      color: var(--text-muted); font-size: 14px;
+    }
 
-        .modal-content button {
-            padding: 10px 20px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .modal-content input {
+      width: 100%; background: #131314; color: white;
+      padding: 15px; margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; font-size: 16px; outline: none;
+      transition: 0.3s;
+    }
+    .modal-content input:focus { border-color: #4285f4; }
 
-        #done-btn {
-            background-color: #4CAF50;
-            color: white;
-          border-radius: 10px;
-          box-shadow:
-    inset -3px -3px 6px rgba(0, 0, 0, 0.25),
-    inset 3px 3px 6px rgba(0, 0, 0, 0.45),
-    0 0px 10px rgba(0, 0, 0, 0.7);
-        }
+    .modal-content button {
+      padding: 12px 24px; margin-left: 10px;
+      border: none; border-radius: 30px; cursor: pointer;
+      font-weight: 500; font-size: 15px; transition: 0.2s;
+    }
 
-        #cancel-btn {
-            background-color: red;
-            color: white;
-          border-radius: 10px;
-          box-shadow:
-    inset -3px -3px 6px rgba(0, 0, 0, 0.25),
-    inset 3px 3px 6px rgba(0, 0, 0, 0.45),
-    0 0px 10px rgba(0, 0, 0, 0.7);
-        }
+    #done-btn { background-color: #c2e7ff; color: #001d35; }
+    #done-btn:hover { background-color: #a8d5f2; }
+    #cancel-btn { background-color: transparent; color: var(--text-main); }
+    #cancel-btn:hover { background-color: rgba(255,255,255,0.05); }
 
-        .context-menu {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-            display: none;
-            overflow: hidden;
-        }
+    /* Fullscreen Viewer */
+    #fullscreen-viewer {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh; background: #000; z-index: 99999;
+    }
+    #fullscreen-viewer iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
-        .context-menu button {
-            width: 100%;
-            padding: 8px 12px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            text-align: center;
-            transition: background-color 0.1s;
-        }
+    .close-viewer {
+      position: fixed; top: 20px; left: 20px;
+      width: 45px; height: 45px;
+      background: rgba(30, 31, 32, 0.8); backdrop-filter: blur(10px);
+      color: white; border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%; font-size: 24px; cursor: move;
+      z-index: 100000; display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+    .close-viewer.is-hidden { opacity: 0.3; }
 
-        .context-menu button:hover {
-            background-color: #d32f2f;
-        }
-
-        .link-box.active .context-menu {
-            display: block;
-        }
-
-        .link-box.permanent .context-menu {
-             display: none;
-        }
-    filter: blur(0.25px);
-}
-  
-    </style>
+    .context-menu {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85); border-radius: 24px;
+      display: none; justify-content: center; align-items: center; z-index: 10;
+    }
+    .remove-btn {
+      background: #ff5252; color: white; border: none;
+      border-radius: 50%; width: 50px; height: 50px;
+      cursor: pointer; font-weight: bold; font-size: 20px;
+      box-shadow: 0 4px 10px rgba(255, 82, 82, 0.4);
+    }
+  </style>
 </head>
 <body>
-    <div class="world-bg"></div>
 
-    <div class="scene" id="mainScene">
-        <div class="loop-container" id="loop"></div>
-    </div>
+  <!-- Top Aura Glow -->
+  <div class="top-glow"></div>
 
-    <div class="container-page" id="dashboard">
-         <div class="container" id="links-container">
-           <div class="full-width-wrapper">
-             
-        
-        <div class="search-wrapper">
+  <div class="gemini-header">
+    <h1 class="gradient-text">Hello, GOLu</h1>
+    <h2 class="sub-text">What do you want to explore today?</h2>
+  </div>
+
+  <div class="search-wrapper">
     <div class="search-container" id="searchBox">
-        <div class="engine-icon" id="currentEngineIcon" style="background-image: url('https://www.google.com/favicon.ico');"></div>
-        <input type="text" id="searchInput" placeholder="Search Google..." autocomplete="off">
+      <div class="engine-icon" id="currentEngineIcon" style="background-image: url('https://www.google.com/favicon.ico');"></div>
+      <input type="text" id="searchInput" placeholder="Search Google..." autocomplete="off">
     </div>
     
     <div class="engine-selector" id="engineSelector">
-        <div class="engine-option" onclick="setEngine('google')"><img src="https://www.google.com/favicon.ico"> Google</div>
-        <div class="engine-option" onclick="setEngine('bing')"><img src="https://www.bing.com/favicon.ico"> Bing</div>
-        <div class="engine-option" onclick="setEngine('yahoo')"><img src="https://www.yahoo.com/favicon.ico"> Yahoo</div>
-        <div class="engine-option" onclick="setEngine('duck')"><img src="https://duckduckgo.com/favicon.ico"> DuckDuckGo</div>
-        <div class="engine-option" onclick="setEngine('youtube')"><img src="https://www.youtube.com/favicon.ico"> YouTube</div>
+      <div class="engine-option" onclick="setEngine('google')"><img src="https://www.google.com/favicon.ico"> Google</div>
+      <div class="engine-option" onclick="setEngine('bing')"><img src="https://www.bing.com/favicon.ico"> Bing</div>
+      <div class="engine-option" onclick="setEngine('duck')"><img src="https://duckduckgo.com/favicon.ico"> DuckDuckGo</div>
+      <div class="engine-option" onclick="setEngine('youtube')"><img src="https://www.youtube.com/favicon.ico"> YouTube</div>
     </div>
-</div>
-       
-             
-    </div>
-        <a href="javascript:void(0)" onclick="openInFullscreen('https://golutheghost-4444.github.io/Fancy-texts/')" class="link-box permanent a" title="Stylish Names">
-    <p>Stylish-Names</p>
-</a>
+  </div>
 
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golutheghost-4444.github.io/Monochromatic-Colour-Shades-Generator/')" class="link-box permanent b" title="Colour Shades">
-    <p>Colour-Shades</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Typing-Trainer-Pro/')" class="link-box permanent c" title="Typing Speed Pro">
-    <p>Typing-Speed-Pro</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Tic-Tac-Toe_by_GOLu/')" class="link-box permanent d" title="Snake & Mongoose">
-    <p>Snake & Mongoose</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Tic-Tac-Toe/')" class="link-box permanent e" title="Tic Tac Toe">
-    <p>Tic Tac Toe</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Flappy-Bird/')" class="link-box permanent f" title="Flappy Bird">
-    <p>Flappy Bird</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/sduyjmhnbdxjmj/')" class="link-box permanent g" title="Video Call">
-    <p>Video Call</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Gold_pzl_enc_x19k77-Public/')" class="link-box permanent h" title="Map">
-    <p>Map</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golutheghost-4444.github.io/Chat-Online-free/')" class="link-box permanent i" title="Random Chat">
-    <p>Random Chat</p>
-</a>
-
-<a href="javascript:void(0)" onclick="openInFullscreen('https://golutheghost-4444.github.io/Resume-maker-free/')" class="link-box permanent j" title="Resume Maker">
-    <p>Resume Maker</p>
-</a>
-
-
-        <div class="link-box" id="add-box-trigger">
-            +
-        </div>
-           <div class="full-width-wrapper">
-        <div class="special-box" style="aspect-ratio: 4 / 3; background-image:url('under.gif'); background-size: cover;">
-           <h1 style="color:white; margin-top: -45%;">Under Construction!</h1>
-        </div>
-    </div>
-                      <div class="full-width-wrapper">
-        <div class="specialish-box" style="width:100%; aspect-ratio: 1 / 1; border-radius: 40px; background: white; background-image: url('show.jpg'); background-size: cover; 
-    background-position: center;
-    background-repeat: no-repeat;
-           box-shadow:
-    inset 12px 12px 25px rgba(0, 0, 0, 0.45),
-    inset -12px -12px 25px rgba(0, 0, 0, 0.55),
-          0px 0px 33px rgba(0, 0, 0, 0.9);" onclick="window.location.href='mailto:goluy1036@gmail.com'" ;>
-        </div>
-    </div>
-    </div>
-
-    <div id="url-modal">
-        <div class="modal-content">
-            <label for="url-input">Paste/Type URL</label>
-            <input type="url" id="url-input" placeholder="https://example.com" required>
-
-            <label for="title-input">Title</label>
-            <input type="text" id="title-input" placeholder="Website Title" required>
-
-            <div style="text-align: right;">
-                <button id="cancel-btn">Cancel</button>
-                <button id="done-btn">Done</button>
-            </div>
-        </div>
-    </div>
+  <div class="container-page" id="dashboard">
+    <div class="container" id="links-container">
+      <a href="javascript:void(0)" onclick="openInFullscreen('https://golutheghost-4444.github.io/Fancy-texts/')" class="link-box permanent" style="background-image: url('Stylish_Names.jpg');">
+        <p>Stylish Names</p>
+      </a>
+      <a href="javascript:void(0)" onclick="openInFullscreen('https://golutheghost-4444.github.io/Monochromatic-Colour-Shades-Generator/')" class="link-box permanent" style="background-image: url('Colour_Shades.jpg');">
+        <p>Colour Shades</p>
+      </a>
+      <a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Typing-Trainer-Pro/')" class="link-box permanent" style="background-image: url('Typing_Speed_Pro.jpg');">
+        <p>Typing Speed</p>
+      </a>
+      <a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Tic-Tac-Toe_by_GOLu/')" class="link-box permanent" style="background-image: url('4.jpg');">
+        <p>Snake & Mongoose</p>
+      </a>
+      <a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Tic-Tac-Toe/')" class="link-box permanent" style="background-image: url('5.jpg');">
+        <p>Tic Tac Toe</p>
+      </a>
+      <a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Flappy-Bird/')" class="link-box permanent" style="background-image: url('6.jpeg');">
+        <p>Flappy Bird</p>
+      </a>
+      
+      <!-- Add New Button -->
+      <div class="link-box" id="add-box-trigger">
+        +
       </div>
+    </div>
+  </div>
 
-   <div id="fullscreen-viewer">
+  <!-- Modal -->
+  <div id="url-modal">
+    <div class="modal-content">
+      <label for="url-input">Paste/Type URL</label>
+      <input type="url" id="url-input" placeholder="https://example.com" required>
+      <label for="title-input">Title</label>
+      <input type="text" id="title-input" placeholder="Website Title" required>
+      <div style="text-align: right; margin-top: 10px;">
+        <button id="cancel-btn">Cancel</button>
+        <button id="done-btn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Iframe -->
+  <div id="fullscreen-viewer">
     <button class="close-viewer" onclick="closeViewer()">×</button>
     <iframe id="viewer-iframe" src="" allow="fullscreen"></iframe>
-</div>
-    
-  <script>
-    const config = [
-        { img: 'Stylish_Names.jpg', url: 'https://golutheghost-4444.github.io/Fancy-texts/' },
-        { img: 'Colour_Shades.jpg', url: 'https://golutheghost-4444.github.io/Monochromatic-Colour-Shades-Generator/' },
-        { img: 'Typing_Speed_Pro.jpg', url: 'https://typingspeedpro.netlify.app' },
-        { img: '4.jpg', url: 'https://golu496.github.io/Tic-Tac-Toe_by_GOLu/' },
-        { img: '5.jpg', url: 'https://golu496.github.io/Tic-Tac-Toe/' },
-        { img: '6.jpeg', url: 'https://golu496.github.io/Flappy-Bird/' },
-        { img: '7.jpg', url: 'https://golu496.github.io/sduyjmhnbdxjmj/' },
-        { img: '8.jpg', url: 'https://golu496.github.io/Gold_pzl_enc_x19k77-Public/' }  
-    ];
+  </div>
+  
+<script>
+  // Fullscreen Logic
+  let autoHideTimer = null;
+  function triggerFullscreen() {
+    const elem = document.documentElement;
+    try {
+      if (elem.requestFullscreen) elem.requestFullscreen();
+      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+    } catch(e) {}
+  }
 
-    const loop = document.getElementById('loop');
-    const faceWidth = 210;
-    const total = config.length;
-    let currentPos = 0, velocity = 0, isDragging = false, dragDistance = 0, lastX = 0;
-    let canAutoRotate = true, idleTimer = null, autoHideTimer = null;
+  function openInFullscreen(url) {
+    const viewer = document.getElementById('fullscreen-viewer');
+    const iframe = document.getElementById('viewer-iframe');
+    iframe.src = url;
+    viewer.style.display = 'block';
+    triggerFullscreen();
+    history.pushState({viewing: "fullscreen"}, "Fullscreen", "#view");
+  }
 
-   
-    function triggerFullscreen() {
-        const elem = document.documentElement;
-        try {
-            if (elem.requestFullscreen) elem.requestFullscreen();
-            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-        } catch(e) { console.log("Fullscreen failed"); }
-    }
+  function closeViewer() {
+    const viewer = document.getElementById('fullscreen-viewer');
+    const iframe = document.getElementById('viewer-iframe');
+    viewer.style.display = 'none';
+    iframe.src = ""; 
+    if (document.fullscreenElement) document.exitFullscreen();
+    if (window.location.hash === "#view") history.replaceState(null, "", window.location.pathname);
+  }
 
-    function openInFullscreen(url) {
-        const viewer = document.getElementById('fullscreen-viewer');
-        const iframe = document.getElementById('viewer-iframe');
-        iframe.src = url;
-        viewer.style.display = 'block';
-        triggerFullscreen();
-        
-        if(autoHideTimer) clearInterval(autoHideTimer);
-        autoHideTimer = setInterval(() => {
-            if (viewer.style.display === 'block' && !document.fullscreenElement) {
-                triggerFullscreen(); 
-            }
-        }, 500);
+  window.onpopstate = function() {
+    if (document.getElementById('fullscreen-viewer').style.display === 'block') closeViewer();
+  };
 
-        history.pushState({viewing: "fullscreen"}, "Fullscreen", "#view");
-    }
+  // Draggable Close Button
+  function makeButtonDraggable() {
+    const btn = document.querySelector('.close-viewer');
+    let isMoving = false, xOff = 0, yOff = 0, hTimer;
+    const hideToEdge = () => { if (!isMoving) btn.classList.add('is-hidden'); };
+    const resetBtnTimer = () => { btn.classList.remove('is-hidden'); clearTimeout(hTimer); hTimer = setTimeout(hideToEdge, 1500); };
 
-    function closeViewer() {
-        const viewer = document.getElementById('fullscreen-viewer');
-        const iframe = document.getElementById('viewer-iframe');
-        clearInterval(autoHideTimer);
-        viewer.style.display = 'none';
-        iframe.src = ""; 
-        if (document.fullscreenElement) document.exitFullscreen();
-        if (window.location.hash === "#view") history.replaceState(null, "", window.location.pathname);
-    }
+    btn.addEventListener("touchstart", (e) => { isMoving = true; resetBtnTimer(); btn.dataset.initX = e.touches[0].clientX - xOff; btn.dataset.initY = e.touches[0].clientY - yOff; });
+    btn.addEventListener("touchmove", (e) => { if (!isMoving) return; e.preventDefault(); xOff = e.touches[0].clientX - btn.dataset.initX; yOff = e.touches[0].clientY - btn.dataset.initY; btn.style.transform = `translate3d(${xOff}px, ${yOff}px, 0)`; });
+    btn.addEventListener("touchend", () => { isMoving = false; resetBtnTimer(); });
+    btn.addEventListener("click", resetBtnTimer);
+    hTimer = setTimeout(hideToEdge, 1500);
+  }
 
-    window.onpopstate = function() {
-        if (document.getElementById('fullscreen-viewer').style.display === 'block') closeViewer();
-    };
-
-   
-    function makeButtonDraggable() {
-        const btn = document.querySelector('.close-viewer');
-        let isMoving = false, xOff = 0, yOff = 0, hTimer;
-        const hideToEdge = () => { if (!isMoving) btn.classList.add('is-hidden'); };
-        const resetBtnTimer = () => { btn.classList.remove('is-hidden'); clearTimeout(hTimer); hTimer = setTimeout(hideToEdge, 1000); };
-
-        btn.addEventListener("touchstart", (e) => { isMoving = true; resetBtnTimer(); btn.dataset.initX = e.touches[0].clientX - xOff; btn.dataset.initY = e.touches[0].clientY - yOff; });
-        btn.addEventListener("touchmove", (e) => { if (!isMoving) return; e.preventDefault(); xOff = e.touches[0].clientX - btn.dataset.initX; yOff = e.touches[0].clientY - btn.dataset.initY; btn.style.transform = `translate3d(${xOff}px, ${yOff}px, 0)`; });
-        btn.addEventListener("touchend", () => { isMoving = false; resetBtnTimer(); });
-        btn.addEventListener("mousedown", (e) => { isMoving = true; resetBtnTimer(); btn.dataset.initX = e.clientX - xOff; btn.dataset.initY = e.clientY - yOff; });
-        window.addEventListener("mousemove", (e) => { if (!isMoving) return; xOff = e.clientX - btn.dataset.initX; yOff = e.clientY - btn.dataset.initY; btn.style.transform = `translate3d(${xOff}px, ${yOff}px, 0)`; });
-        window.addEventListener("mouseup", () => { isMoving = false; resetBtnTimer(); });
-        btn.addEventListener("click", resetBtnTimer);
-        hTimer = setTimeout(hideToEdge, 1000);
-    }
-
-function createLinkBox(url, title) {
+  // Dynamic Links Creation
+  function createLinkBox(url, title) {
     const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
     const urlObj = new URL(formattedUrl);
-    const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${urlObj.hostname}`;
+    const faviconUrl = `https://www.google.com/s2/favicons?sz=128&domain_url=${urlObj.hostname}`;
 
-   
     const newLinkBox = document.createElement('div');
     newLinkBox.className = 'link-box user-added';
     newLinkBox.dataset.targetUrl = formattedUrl;
     newLinkBox.dataset.title = title;
 
     newLinkBox.innerHTML = `
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('${faviconUrl}'); background-size: 50%; background-repeat: no-repeat; background-position: center 30%;"></div>
         <p>${title}</p>
-        <div class="context-menu" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); border-radius:30px; justify-content:center; align-items:center; z-index:10;">
-            <button class="remove-btn" style="background:red; color:white; border:none; border-radius:50%; width:50px; height:50px; cursor:pointer; font-weight:bold; font-size:20px;">X</button>
+        <div class="context-menu">
+            <button class="remove-btn">×</button>
         </div>`;
 
-    
-    newLinkBox.style.backgroundImage = `url('${faviconUrl}')`;
-    newLinkBox.style.backgroundSize = "64px";
-    newLinkBox.style.backgroundRepeat = "no-repeat";
-    newLinkBox.style.backgroundPosition = "center 40%";
-    newLinkBox.style.position = "relative";
-
-    
-    newLinkBox.oncontextmenu = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    };
+    newLinkBox.oncontextmenu = e => { e.preventDefault(); e.stopPropagation(); return false; };
 
     let pressTimer;
     let isLongPress = false;
-
-    
     const startPress = () => {
         isLongPress = false;
         pressTimer = setTimeout(() => {
@@ -678,240 +460,121 @@ function createLinkBox(url, title) {
             isLongPress = true;
         }, 500); 
     };
-
     const endPress = () => { clearTimeout(pressTimer); };
 
-    
     newLinkBox.addEventListener('mousedown', startPress);
     newLinkBox.addEventListener('touchstart', startPress);
     newLinkBox.addEventListener('mouseup', endPress);
     newLinkBox.addEventListener('touchend', endPress);
 
-  
     newLinkBox.onclick = (e) => {
         const menu = newLinkBox.querySelector('.context-menu');
-        
-        
         if (e.target.classList.contains('remove-btn')) {
             e.stopPropagation();
-            if(confirm(`Remove ${title}?`)) {
-                newLinkBox.remove();
-                saveLinks();
-            }
+            if(confirm(`Remove ${title}?`)) { newLinkBox.remove(); saveLinks(); }
             return;
         }
-
-        
         if (menu.style.display === 'none' && !isLongPress) {
             window.open(newLinkBox.dataset.targetUrl, '_blank');
         } else {
             menu.style.display = 'none';
         }
     };
-
     return newLinkBox;
-}
+  }
   
-    function saveLinks() {
+  function saveLinks() {
     const links = [];
     document.querySelectorAll('.link-box.user-added').forEach(box => {
-        links.push({ 
-            url: box.dataset.targetUrl, 
-            title: box.dataset.title 
-        });
+        links.push({ url: box.dataset.targetUrl, title: box.dataset.title });
     });
     localStorage.setItem('quickLinks', JSON.stringify(links));
-}
+  }
 
-document.getElementById('done-btn').onclick = () => {
-    const urlInput = document.getElementById('url-input');
-    const titleInput = document.getElementById('title-input');
-    const url = urlInput.value.trim();
-    const title = titleInput.value.trim();
+  function loadLinks() {
+    const saved = JSON.parse(localStorage.getItem('quickLinks') || "[]");
+    const trigger = document.getElementById('add-box-trigger');
+    saved.forEach(l => trigger.parentNode.insertBefore(createLinkBox(l.url, l.title), trigger));
+  }
 
-    if(url && title) {
-        const box = createLinkBox(url, title);
-        const trigger = document.getElementById('add-box-trigger');
-        trigger.parentNode.insertBefore(box, trigger);
-        saveLinks();
-        
-        document.getElementById('url-modal').style.display = 'none';
-        urlInput.value = '';
-        titleInput.value = '';
-    }
-};
-
-    function loadLinks() {
-        const saved = JSON.parse(localStorage.getItem('quickLinks') || "[]");
-        const trigger = document.getElementById('add-box-trigger');
-        saved.forEach(l => trigger.parentNode.insertBefore(createLinkBox(l.url, l.title), trigger));
-    }
-
-   
-    config.forEach((item, i) => {
-        const face = document.createElement('div');
-        face.className = 'face';
-        face.style.backgroundImage = `url(${item.img})`;
-        face.dataset.index = i;
-        face.addEventListener('mouseup', () => { if (dragDistance < 5 && face.classList.contains('depth-front')) openInFullscreen(item.url); });
-        face.addEventListener('touchend', () => { if (dragDistance < 5 && face.classList.contains('depth-front')) openInFullscreen(item.url); });
-        loop.appendChild(face);
-    });
-
-    function update() {
-        const faces = document.querySelectorAll('.face');
-        const dynamicRadiusX = (total * (faceWidth + (faceWidth/3))) / 4.2; 
-        faces.forEach(f => {
-            let progress = (parseFloat(f.dataset.index) / total + currentPos) % 1;
-            if (progress < 0) progress += 1;
-            let x, y, z, rX, rY, scale = 1;
-            if (progress < 0.5) {
-                x = (progress * 4 - 1) * dynamicRadiusX; y = 0; z = 400; rX = 0; rY = 0;
-                scale = 1.15 - (Math.abs(progress - 0.25) * 0.8);
-                f.classList.add('depth-front'); f.classList.remove('depth-back'); f.style.zIndex = 100;
-            } else {
-                let t = (progress - 0.5) * 2; x = (1 - t * 2) * dynamicRadiusX;
-                y = Math.sin(t * Math.PI) * -420; z = -600; rX = t * 180; rY = -t * 10; scale = 0.85;
-                f.classList.add('depth-back'); f.classList.remove('depth-front'); f.style.zIndex = 5;
-            }
-            f.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateX(${rX}deg) rotateY(${rY}deg) scale(${scale})`;
-        });
-    }
-
-  
-let currentEngine = localStorage.getItem('selectedEngine') || 'google';
-
-const engines = {
+  // Search Engine Logic
+  let currentEngine = localStorage.getItem('selectedEngine') || 'google';
+  const engines = {
     google: { name: 'Google', url: 'https://www.google.com/search?q=', icon: 'https://www.google.com/favicon.ico' },
     bing: { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'https://www.bing.com/favicon.ico' },
-    yahoo: { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=', icon: 'https://www.yahoo.com/favicon.ico' },
     duck: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=', icon: 'https://duckduckgo.com/favicon.ico' },
     youtube: { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=', icon: 'https://www.youtube.com/favicon.ico' }
-};
+  };
 
-const searchBox = document.getElementById('searchBox');
-const searchInput = document.getElementById('searchInput');
-const engineSelector = document.getElementById('engineSelector');
-const currentIcon = document.getElementById('currentEngineIcon');
+  const searchBox = document.getElementById('searchBox');
+  const searchInput = document.getElementById('searchInput');
+  const engineSelector = document.getElementById('engineSelector');
+  const currentIcon = document.getElementById('currentEngineIcon');
 
-function initEngine() {
+  function initEngine() {
     const engine = engines[currentEngine];
     currentIcon.style.backgroundImage = `url('${engine.icon}')`;
-    searchInput.placeholder = `Search ${engine.name}...`;
-}
+    searchInput.placeholder = `Ask anything or Search ${engine.name}...`;
+  }
 
-let pressTimer;
+  currentIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    engineSelector.style.display = engineSelector.style.display === 'flex' ? 'none' : 'flex';
+  });
 
-searchBox.addEventListener('mousedown', () => {
-    pressTimer = setTimeout(() => engineSelector.style.display = 'flex', 600);
-});
-searchBox.addEventListener('touchstart', () => {
-    pressTimer = setTimeout(() => engineSelector.style.display = 'flex', 600);
-});
-window.addEventListener('mouseup', () => clearTimeout(pressTimer));
-window.addEventListener('touchend', () => clearTimeout(pressTimer));
-
-function setEngine(id) {
+  function setEngine(id) {
     currentEngine = id;
     localStorage.setItem('selectedEngine', id);
-    
     const engine = engines[id];
     currentIcon.style.backgroundImage = `url('${engine.icon}')`;
-    searchInput.placeholder = `Search ${engine.name}...`;
+    searchInput.placeholder = `Ask anything or Search ${engine.name}...`;
     engineSelector.style.display = 'none';
     searchInput.focus();
-}
+  }
 
-
-searchInput.addEventListener('keypress', (e) => {
+  searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && searchInput.value.trim() !== "") {
         window.open(engines[currentEngine].url + encodeURIComponent(searchInput.value), '_blank');
     }
-});
+  });
 
-window.addEventListener('click', (e) => {
-    if (!searchBox.contains(e.target) && !engineSelector.contains(e.target)) {
+  window.addEventListener('click', (e) => {
+    if (!engineSelector.contains(e.target) && e.target !== currentIcon) {
         engineSelector.style.display = 'none';
     }
-});
+  });
+  initEngine();
 
-initEngine();
-  
-    function animate() {
-        if (!isDragging) { if (canAutoRotate) currentPos += 0.0004; velocity *= 0.95; currentPos += velocity; update(); }
-        requestAnimationFrame(animate);
-    }
-
-    window.onscroll = () => {
-        const y = window.scrollY;
-        document.getElementById('mainScene').style.transform = `translateY(${-y * 1.1}px)`;
-        document.getElementById('mainScene').style.opacity = 1 - (y / 600);
-        canAutoRotate = false; clearTimeout(idleTimer); idleTimer = setTimeout(() => { canAutoRotate = true; }, 1000);
-    };
-
-    const start = (x) => { isDragging = true; lastX = x; velocity = 0; dragDistance = 0; };
-    const move = (x) => { if (!isDragging) return; const delta = x - lastX; dragDistance += Math.abs(delta); currentPos += delta * (0.005 / total); velocity = delta * (0.005 / total); update(); lastX = x; };
-
-    window.onmousedown = (e) => start(e.pageX); window.onmousemove = (e) => move(e.pageX); window.onmouseup = () => { isDragging = false; };
-    window.ontouchstart = (e) => start(e.touches[0].pageX); window.ontouchmove = (e) => move(e.touches[0].pageX); window.ontouchend = () => { isDragging = false; };
-
-    const addBoxTrigger = document.getElementById('add-box-trigger');
-    const urlModal = document.getElementById('url-modal');
-    addBoxTrigger.onclick = () => { urlModal.style.display = 'flex'; };
-  
+  // URL Modal Logic
+  const addBoxTrigger = document.getElementById('add-box-trigger');
+  const urlModal = document.getElementById('url-modal');
   const urlInput = document.getElementById('url-input');
 
-urlInput.addEventListener('focus', () => {
-    if (urlInput.value === '') {
-        urlInput.value = 'https://';
-    }
-});
+  addBoxTrigger.onclick = () => { urlModal.style.display = 'flex'; };
 
-
-urlInput.addEventListener('input', (e) => {
+  urlInput.addEventListener('focus', () => { if (urlInput.value === '') urlInput.value = 'https://'; });
+  urlInput.addEventListener('input', (e) => {
     let value = urlInput.value;
-    
-   
-    if (value.startsWith('https://https://')) {
-        urlInput.value = value.replace('https://https://', 'https://');
-    } else if (value.startsWith('https://http://')) {
-        urlInput.value = value.replace('https://http://', 'http://');
-    }
-});
-
-urlInput.addEventListener('blur', () => {
-    if (urlInput.value === 'https://') {
-        urlInput.value = '';
-    }
-});
+    if (value.startsWith('https://https://')) urlInput.value = value.replace('https://https://', 'https://');
+    else if (value.startsWith('https://http://')) urlInput.value = value.replace('https://http://', 'http://');
+  });
+  urlInput.addEventListener('blur', () => { if (urlInput.value === 'https://') urlInput.value = ''; });
   
-    document.getElementById('cancel-btn').onclick = () => { urlModal.style.display = 'none'; };
-    document.getElementById('done-btn').onclick = () => {
-        const url = document.getElementById('url-input').value;
-        const title = document.getElementById('title-input').value;
-        if(url && title) {
-            const box = createLinkBox(url, title);
-            addBoxTrigger.parentNode.insertBefore(box, addBoxTrigger);
-            saveLinks();
-            urlModal.style.display = 'none';
-            document.getElementById('url-input').value = '';
-            document.getElementById('title-input').value = '';
-        }
-    };
-
-    window.onload = () => { loadLinks(); update(); animate(); makeButtonDraggable(); };
-
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(reg => console.log('SW Registered'));
+  document.getElementById('cancel-btn').onclick = () => { urlModal.style.display = 'none'; };
+  document.getElementById('done-btn').onclick = () => {
+    const url = document.getElementById('url-input').value.trim();
+    const title = document.getElementById('title-input').value.trim();
+    if(url && title) {
+        const box = createLinkBox(url, title);
+        addBoxTrigger.parentNode.insertBefore(box, addBoxTrigger);
+        saveLinks();
+        urlModal.style.display = 'none';
+        document.getElementById('url-input').value = '';
+        document.getElementById('title-input').value = '';
     }
-  
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('Service Worker Registered'))
-            .catch(err => console.log('Service Worker Failed', err));
-    });
-}
+  };
+
+  window.onload = () => { loadLinks(); makeButtonDraggable(); };
 </script>
 </body>
 </html>
