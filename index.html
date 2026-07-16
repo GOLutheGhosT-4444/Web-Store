@@ -20,7 +20,7 @@
       font-family: 'Outfit', sans-serif;
     }
     :root {
-      --bg-color: #131314; /* Gemini Dark Background */
+      --bg-color: #131314; 
       --surface-color: #1e1f20;
       --text-main: #e3e3e3;
       --text-muted: #c4c7c5;
@@ -45,7 +45,7 @@
       background-size: 200% auto;
       animation: gradient-flow 6s linear infinite;
       filter: blur(70px);
-      opacity: 0.45; /* Glow intensity */
+      opacity: 0.45;
       z-index: 1;
       pointer-events: none;
     }
@@ -80,7 +80,7 @@
       color: var(--text-muted);
       margin-top: 10px;
       font-weight: 300;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* To keep it readable over glow */
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     @keyframes gradient-flow {
@@ -152,7 +152,7 @@
     .engine-option:hover { background: rgba(255,255,255,0.08); }
     .engine-option img { width: 20px; height: 20px; border-radius: 4px; }
 
-    /* Links Grid */
+    /* 🌟 AI Morphing Fluid Links Grid 🌟 */
     .container-page {
       width: 100%; 
       background: transparent;
@@ -184,9 +184,12 @@
       overflow: hidden;
       aspect-ratio: 1;
       background: var(--surface-color);
-      border-radius: 24px;
+      
+      /* New Fluid Chat Bubble Shape */
+      border-radius: 35px 8px 35px 35px; 
+      
       border: 1px solid rgba(255,255,255,0.05);
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
@@ -195,6 +198,8 @@
       background: #2a2b2e;
       border: 1px solid rgba(255,255,255,0.15);
       box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+      /* Morphing Animation on Hover */
+      border-radius: 8px 35px 35px 35px;
     }
 
     .link-box.permanent {
@@ -231,12 +236,14 @@
       background: var(--surface-color);
       color: var(--text-muted);
       border: 2px dashed rgba(255,255,255,0.15);
+      border-radius: 35px 35px 8px 35px; /* Slightly different morph for the add button */
     }
     #add-box-trigger::after { display: none; }
     
     #add-box-trigger:hover {
       border-color: #4285f4;
       color: #4285f4;
+      border-radius: 35px 35px 35px 8px;
     }
 
     /* Modal Styling */
@@ -301,7 +308,7 @@
 
     .context-menu {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85); border-radius: 24px;
+      background: rgba(0,0,0,0.85); border-radius: inherit; /* Matches dynamic shape */
       display: none; justify-content: center; align-items: center; z-index: 10;
     }
     .remove-btn {
@@ -381,7 +388,7 @@
   <!-- Fullscreen Iframe -->
   <div id="fullscreen-viewer">
     <button class="close-viewer" onclick="closeViewer()">×</button>
-    <iframe id="viewer-iframe" src="" allow="fullscreen"></iframe>
+    <iframe id="viewer-iframe" src="" allow="fullscreen" allow="autoplay; encrypted-media"></iframe>
   </div>
   
 <script>
@@ -475,7 +482,8 @@
             return;
         }
         if (menu.style.display === 'none' && !isLongPress) {
-            window.open(newLinkBox.dataset.targetUrl, '_blank');
+            /* Changed from window.open to openInFullscreen to strictly open inside the app */
+            openInFullscreen(newLinkBox.dataset.targetUrl);
         } else {
             menu.style.display = 'none';
         }
@@ -534,7 +542,8 @@
 
   searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && searchInput.value.trim() !== "") {
-        window.open(engines[currentEngine].url + encodeURIComponent(searchInput.value), '_blank');
+        /* Search bar bhi iframe me open hogi ab */
+        openInFullscreen(engines[currentEngine].url + encodeURIComponent(searchInput.value));
     }
   });
 
