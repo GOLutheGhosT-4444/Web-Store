@@ -40,7 +40,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 </head>
-  
+
   <style>
     * {
       box-sizing: border-box;
@@ -61,20 +61,45 @@
       min-height: 100vh;
     }
 
-    /* 🌟 Top Animated Glow (Gemini Aura) 🌟 */
+    /* 🌟 True Gemini Aurora Mesh Glow 🌟 */
     .top-glow {
       position: fixed;
-      top: -50px;
-      left: 0;
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(90deg, #4285f4, #9b72cb, #d96570, #f4b400, #4285f4);
-      background-size: 200% auto;
-      animation: gradient-flow 6s linear infinite;
-      filter: blur(70px);
-      opacity: 0.65;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 85vh; /* Fades out beautifully towards bottom */
+      background: 
+        radial-gradient(ellipse at 30% 20%, rgba(155, 114, 203, 0.75) 0%, rgba(155, 114, 203, 0) 50%),
+        radial-gradient(ellipse at 70% 30%, rgba(66, 133, 244, 0.65) 0%, rgba(66, 133, 244, 0) 50%),
+        radial-gradient(ellipse at 50% 10%, rgba(15, 157, 88, 0.55) 0%, rgba(15, 157, 88, 0) 60%);
+      filter: blur(90px); /* Massive blur removes circular endpoints completely */
+      opacity: 0.85;
       z-index: 1;
       pointer-events: none;
+      animation: gemini-aurora 15s linear infinite;
+    }
+
+    @keyframes gemini-aurora {
+      0% { 
+        filter: blur(90px) hue-rotate(0deg); 
+        transform: scale(1) translate(0, 0); 
+      }
+      25% { 
+        filter: blur(90px) hue-rotate(90deg); /* Shifts to Green/Yellow */
+        transform: scale(1.1) translate(2%, 3%); 
+      }
+      50% { 
+        filter: blur(90px) hue-rotate(180deg); /* Shifts to Blue/Purple */
+        transform: scale(1.05) translate(-2%, 1%); 
+      }
+      75% { 
+        filter: blur(90px) hue-rotate(270deg); /* Shifts to Rich Pink/Gold */
+        transform: scale(1.15) translate(1%, -2%); 
+      }
+      100% { 
+        filter: blur(90px) hue-rotate(360deg); /* Back to Original smoothly */
+        transform: scale(1) translate(0, 0); 
+      }
     }
 
     /* 🌟 Gemini Style Animated Header 🌟 */
@@ -88,7 +113,7 @@
       z-index: 10;
       position: relative;
     }
-    
+
     .gradient-text {
       font-size: 3.8rem;
       font-weight: 500;
@@ -135,7 +160,7 @@
       border: 1px solid rgba(255,255,255,0.1);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    
+
     .search-container:focus-within {
       background: #2a2b2e;
       border: 1px solid #4285f4;
@@ -160,7 +185,7 @@
       color: var(--text-main); 
     }
     .search-container input::placeholder { color: #888; }
-    
+
     .engine-selector { 
       position: absolute; top: 80px; left: 0;
       background: var(--surface-color); 
@@ -170,7 +195,7 @@
       width: 250px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
-    
+
     .engine-option { 
       padding: 15px 20px; display: flex; align-items: center; gap: 15px; 
       cursor: pointer; color: var(--text-main); font-weight: 400; 
@@ -211,10 +236,7 @@
       overflow: hidden;
       aspect-ratio: 1;
       background: var(--surface-color);
-      
-      /* New Fluid Chat Bubble Shape */
       border-radius: 35px 8px 35px 35px; 
-      
       border: 1px solid rgba(255,255,255,0.05);
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -225,7 +247,6 @@
       background: #2a2b2e;
       border: 1px solid rgba(255,255,255,0.15);
       box-shadow: 0 12px 25px rgba(0,0,0,0.4);
-      /* Morphing Animation on Hover */
       border-radius: 8px 35px 35px 35px;
     }
 
@@ -233,7 +254,7 @@
       background-size: cover;
       background-position: center;
     }
-    
+
     .link-box::after {
       content: '';
       position: absolute;
@@ -263,10 +284,10 @@
       background: var(--surface-color);
       color: var(--text-muted);
       border: 2px dashed rgba(255,255,255,0.15);
-      border-radius: 35px 35px 8px 35px; /* Slightly different morph for the add button */
+      border-radius: 35px 35px 8px 35px;
     }
     #add-box-trigger::after { display: none; }
-    
+
     #add-box-trigger:hover {
       border-color: #4285f4;
       color: #4285f4;
@@ -335,7 +356,7 @@
 
     .context-menu {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85); border-radius: inherit; /* Matches dynamic shape */
+      background: rgba(0,0,0,0.85); border-radius: inherit; 
       display: none; justify-content: center; align-items: center; z-index: 10;
     }
     .remove-btn {
@@ -345,7 +366,6 @@
       box-shadow: 0 4px 10px rgba(255, 82, 82, 0.4);
     }
   </style>
-</head>
 <body>
 
   <!-- Top Aura Glow -->
@@ -361,7 +381,7 @@
       <div class="engine-icon" id="currentEngineIcon" style="background-image: url('https://www.google.com/favicon.ico');"></div>
       <input type="text" id="searchInput" placeholder="Search Google..." autocomplete="off">
     </div>
-    
+
     <div class="engine-selector" id="engineSelector">
       <div class="engine-option" onclick="setEngine('google')"><img src="https://www.google.com/favicon.ico"> Google</div>
       <div class="engine-option" onclick="setEngine('bing')"><img src="https://www.bing.com/favicon.ico"> Bing</div>
@@ -390,7 +410,7 @@
       <a href="javascript:void(0)" onclick="openInFullscreen('https://golu496.github.io/Flappy-Bird/')" class="link-box permanent" style="background-image: url('6.jpeg');">
         <p>Flappy Bird</p>
       </a>
-      
+
       <!-- Add New Button -->
       <div class="link-box" id="add-box-trigger">
         +
@@ -417,7 +437,7 @@
     <button class="close-viewer" onclick="closeViewer()">×</button>
     <iframe id="viewer-iframe" src="" allow="fullscreen" allow="autoplay; encrypted-media"></iframe>
   </div>
-  
+
 <script>
   // Fullscreen Logic
   let autoHideTimer = null;
@@ -509,7 +529,6 @@
             return;
         }
         if (menu.style.display === 'none' && !isLongPress) {
-            /* Changed from window.open to openInFullscreen to strictly open inside the app */
             openInFullscreen(newLinkBox.dataset.targetUrl);
         } else {
             menu.style.display = 'none';
@@ -517,7 +536,7 @@
     };
     return newLinkBox;
   }
-  
+
   function saveLinks() {
     const links = [];
     document.querySelectorAll('.link-box.user-added').forEach(box => {
@@ -569,7 +588,6 @@
 
   searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && searchInput.value.trim() !== "") {
-        /* Search bar bhi iframe me open hogi ab */
         openInFullscreen(engines[currentEngine].url + encodeURIComponent(searchInput.value));
     }
   });
@@ -595,7 +613,7 @@
     else if (value.startsWith('https://http://')) urlInput.value = value.replace('https://http://', 'http://');
   });
   urlInput.addEventListener('blur', () => { if (urlInput.value === 'https://') urlInput.value = ''; });
-  
+
   document.getElementById('cancel-btn').onclick = () => { urlModal.style.display = 'none'; };
   document.getElementById('done-btn').onclick = () => {
     const url = document.getElementById('url-input').value.trim();
